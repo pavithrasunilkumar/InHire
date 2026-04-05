@@ -204,6 +204,7 @@ VITE_API_URL=http://localhost:5000
 ---
 
 ## 📁 Project Structure
+
 intrivue/
 ├── frontend/                  # React + Vite app
 │   ├── src/
