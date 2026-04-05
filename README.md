@@ -206,28 +206,43 @@ VITE_API_URL=http://localhost:5000
 ## 📁 Project Structure
 
 intrivue/
-├── frontend/                  # React + Vite app
+│
+├── frontend/                 # React + Vite app
 │   ├── src/
-│   │   └── app/
-│   │       ├── pages/         # Login, Signup, Home, Profile...
-│   │       ├── components/    # JobCard, Layout, AppliedPopup...
-│   │       └── api.ts         # All API calls
+│   │   ├── app/
+│   │   │   ├── pages/        # Login, Signup, Home, Profile
+│   │   │   ├── components/   # JobCard, Layout, AppliedPopup
+│   │   │   ├── hooks/        # Custom hooks (useAuth, useJobs)
+│   │   │   └── services/     # API logic (better than api.ts)
+│   │   ├── assets/
+│   │   └── main.tsx
 │   ├── .env.example
 │   └── package.json
 │
-├── backend/                   # Node.js + Express API
-│   ├── models/
+├── backend/                  # Node.js + Express API
+│   ├── controllers/          # Business logic
+│   ├── routes/               # API routes
+│   ├── models/               # DB schemas
 │   │   ├── User.js
 │   │   ├── Job.js
 │   │   └── Application.js
+│   ├── middleware/           # Auth, error handling
+│   ├── config/               # DB connection
 │   ├── server.js
 │   ├── .env.example
 │   └── package.json
 │
-├── ml-service/                # Python FastAPI
-│   ├── main.py                # TF-IDF cosine similarity
+├── ml-service/               # Python FastAPI (AI engine)
+│   ├── main.py               # TF-IDF + cosine similarity
+│   ├── model/                # Saved models (future)
+│   ├── utils/                # preprocessing
 │   └── requirements.txt
 │
+├── docs/                     # (🔥 add this)
+│   ├── architecture.png
+│   └── api-flow.md
+│
+├── docker-compose.yml        # (🔥 optional but powerful)
 ├── .gitignore
 └── README.md
 
