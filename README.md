@@ -120,8 +120,8 @@ Register → Login → Dashboard
 
 **Clone the repository**
 ```bash
-git clone https://github.com/YOUR_USERNAME/intrivue.git
-cd intrivue
+git clone https://github.com/YOUR_USERNAME/inhire.git
+cd inhire
 ```
 
 **Terminal 1 — ML Service**
