@@ -1,6 +1,6 @@
 <div align="center">
 
-#  IntriVue - Intelligent Swipe-Based Opportunity Discovery Platform
+#  InHire - Intelligent Swipe-Based Opportunity Discovery Platform
 
 
 
@@ -25,11 +25,11 @@
 ---
 
 
-INTRIVUE is a full-stack AI-driven job and internship discovery platform designed to simplify how users find relevant opportunities. Inspired by swipe-based interaction systems, the platform enables users to explore jobs dynamically while leveraging machine learning for personalized recommendations.
+InHire is a full-stack AI-driven job and internship discovery platform designed to simplify how users find relevant opportunities. Inspired by swipe-based interaction systems, the platform enables users to explore jobs dynamically while leveraging machine learning for personalized recommendations.
 
 The system integrates a React + Vite frontend, a Node.js + Express backend, and a Python FastAPI-based ML microservice. It uses TF-IDF and cosine similarity to analyze user profiles and job descriptions, ensuring accurate and meaningful matches.
 
-INTRIVUE is a full-stack AI-driven job and internship discovery platform designed to simplify how users find relevant opportunities. Inspired by swipe-based interaction systems, the platform enables users to explore jobs dynamically while leveraging machine learning for personalized recommendations.
+InHire is a full-stack AI-driven job and internship discovery platform designed to simplify how users find relevant opportunities. Inspired by swipe-based interaction systems, the platform enables users to explore jobs dynamically while leveraging machine learning for personalized recommendations.
 
 The system integrates a React + Vite frontend, a Node.js + Express backend, and a Python FastAPI-based ML microservice. It uses TF-IDF and cosine similarity to analyze user profiles and job descriptions, ensuring accurate and meaningful matches.
 
@@ -106,7 +106,7 @@ Register → Login → Dashboard
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -166,13 +166,6 @@ Open **http://localhost:5173** 🎉
 
 ## ⚙️ Environment Variables
 
-### `backend/.env`
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-ML_SERVICE_URL=http://localhost:8000
-```
 
 ### `frontend/.env`
 ```env
@@ -221,7 +214,7 @@ VITE_API_URL=http://localhost:5000
 ## 📁 Project Structure
 
 ```
-intrivue/
+InHire/
 ├── frontend/                 # React + Vite app
 │   ├── src/
 │   │   └── app/
@@ -284,7 +277,7 @@ If the ML service is unreachable, the backend falls back to a simple overlap rat
 
 ## 📝 License
 
-MIT License — feel free to use, modify, and distribute.
+copyright attached
 
 ---
 
