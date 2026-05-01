@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🎯 InHire
+#  InHire - Intelligent Swipe-Based Opportunity Discovery Platform
+
+
 
 ### AI-Powered Job Matching Platform
 
@@ -16,9 +18,20 @@
 
 **Tinder-style job swiping · ML match scoring · Resume transfer to recruiters**
 
+[Features](#-features) · [Demo Flow](#-demo-flow) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [API Reference](#-api-reference)
+
 </div>
 
 ---
+
+
+InHire is a full-stack AI-driven job and internship discovery platform designed to simplify how users find relevant opportunities. Inspired by swipe-based interaction systems, the platform enables users to explore jobs dynamically while leveraging machine learning for personalized recommendations.
+
+The system integrates a React + Vite frontend, a Node.js + Express backend, and a Python FastAPI-based ML microservice. It uses TF-IDF and cosine similarity to analyze user profiles and job descriptions, ensuring accurate and meaningful matches.
+
+InHire is a full-stack AI-driven job and internship discovery platform designed to simplify how users find relevant opportunities. Inspired by swipe-based interaction systems, the platform enables users to explore jobs dynamically while leveraging machine learning for personalized recommendations.
+
+The system integrates a React + Vite frontend, a Node.js + Express backend, and a Python FastAPI-based ML microservice. It uses TF-IDF and cosine similarity to analyze user profiles and job descriptions, ensuring accurate and meaningful matches.
 
 ## ✨ Features
 
@@ -37,50 +50,112 @@
 - ✅ **Close Jobs** — Close a job once filled — removed from seeker swipe cards instantly
 - 🏢 **Company Profile** — Editable company info page
 
+### Platform
+- 🔐 **JWT Authentication** — Secure login with 7-day tokens
+- 🛡️ **Role-based Access** — Separate flows for job seekers and companies
+- 🗄️ **MongoDB Atlas** — Cloud database, all data persisted
+- ⚡ **Hot Reload** — Vite dev server for instant frontend updates
+
+---
+
+## 🎬 Demo Flow
+
+### Job Seeker
+Register → Fill Profile + Upload Resume → Login
+→ Swipe Cards (with ML match %) → Apply (resume auto-sent)
+→ Dashboard (view applied jobs) → Profile (edit anytime)
+
+### Company
+Register → Login → Dashboard
+→ Create Job → Job appears in seeker swipe cards
+→ View Applicants → Download Resume PDF
+→ Close Job (removes from swipe cards)
+
 ---
 
 ## 🏗️ Architecture
 
 ```
-Frontend (React)  →  Backend (Node.js)  →  ML Service (Python)
-     :5173               :5000                   :8000
-                            ↓
-                     MongoDB Atlas
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│   Frontend      │────▶│   Backend        │────▶│   ML Service    │
+│  React + Vite   │     │  Node + Express  │     │  Python FastAPI │
+│  TypeScript     │◀────│  MongoDB Atlas   │     │  TF-IDF Cosine  │
+│  Tailwind CSS   │     │  JWT Auth        │◀────│  Similarity     │
+└─────────────────┘     └──────────────────┘     └─────────────────┘
+   :5173                      :5000                     :8000
 ```
+
+
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Tech Stack
 
-### Terminal 1 — ML Service
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| Frontend | React 18 + TypeScript | UI framework |
+| Styling | Tailwind CSS 4 | Utility-first CSS |
+| Animation | Framer Motion | Swipe card animations |
+| Routing | React Router 7 | Client-side routing |
+| Backend | Node.js + Express | REST API server |
+| Database | MongoDB Atlas + Mongoose | Data persistence |
+| Auth | JWT + bcryptjs | Secure authentication |
+| ML Service | Python + FastAPI | Job match scoring |
+| Algorithm | TF-IDF + Cosine Similarity | Skill matching |
+| Build Tool | Vite 6 | Frontend bundler |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+| Tool | Version | Check |
+|------|---------|-------|
+| Node.js | 18+ | `node -v` |
+| Python | 3.9+ | `python --version` |
+| npm | latest | `npm -v` |
+
+### Installation
+
+**Clone the repository**
+```bash
+git clone https://github.com/YOUR_USERNAME/inhire.git
+cd inhire
+```
+
+**Terminal 1 — ML Service**
 ```bash
 cd ml-service
-
-# Windows
-python -m venv venv
-venv\Scripts\activate
 
 # Mac/Linux
 python -m venv venv
 source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
 
 pip install -r requirements.txt
 python main.py
 # ✅ Running on http://localhost:8000
 ```
 
-### Terminal 2 — Backend
+**Terminal 2 — Backend**
 ```bash
 cd backend
 npm install
+cp .env.example .env
 npm run dev
+# ✅ MongoDB connected
 # ✅ Running on http://localhost:5000
 ```
 
-### Terminal 3 — Frontend
+**Terminal 3 — Frontend**
 ```bash
 cd frontend
 npm install
+cp .env.example .env
 npm run dev
 # ✅ Running on http://localhost:5173
 ```
@@ -91,13 +166,6 @@ Open **http://localhost:5173** 🎉
 
 ## ⚙️ Environment Variables
 
-### `backend/.env`
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=inhire_jwt_secret_key_2024
-ML_SERVICE_URL=http://localhost:8000
-```
 
 ### `frontend/.env`
 ```env
@@ -108,18 +176,38 @@ VITE_API_URL=http://localhost:5000
 
 ## 📡 API Reference
 
+### Auth
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/register` | Register jobseeker or company |
+| `POST` | `/login` | Login → returns JWT + user object |
+
+### Profile
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
-| `POST` | `/register` | — | Register user or company |
-| `POST` | `/login` | — | Login → JWT token |
 | `POST` | `/save-profile` | ✅ | Update profile + resume |
-| `GET` | `/jobs` | ✅ | Jobs with ML match scores |
+| `POST` | `/get-profile` | ✅ | Fetch current user |
+
+### Jobs
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| `GET` | `/jobs` | ✅ | All active jobs with ML scores |
 | `POST` | `/create-job` | ✅ Company | Create job posting |
-| `GET` | `/company/jobs` | ✅ Company | Company's jobs |
+| `GET` | `/company/jobs` | ✅ Company | Jobs by this company |
 | `PATCH` | `/company/jobs/:id/close` | ✅ Company | Close a job |
+
+### Applications
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
 | `POST` | `/apply` | ✅ Seeker | Apply with resume snapshot |
-| `GET` | `/applied-jobs` | ✅ Seeker | Applied jobs list |
-| `GET` | `/company/applicants/:jobId` | ✅ Company | Applicants + resumes |
+| `GET` | `/applied-jobs` | ✅ Seeker | All applied jobs |
+| `GET` | `/company/applicants/:jobId` | ✅ Company | Applicants + resume data |
+
+### ML Service
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/recommend` | `{user_skills, job_skills}` → `{match_score}` |
+| `GET` | `/health` | Health check |
 
 ---
 
@@ -127,23 +215,75 @@ VITE_API_URL=http://localhost:5000
 
 ```
 InHire/
-├── frontend/          # React + Vite + TypeScript
-├── backend/           # Node.js + Express + MongoDB
-│   └── models/        # User, Job, Application schemas
-├── ml-service/        # Python FastAPI — TF-IDF scoring
+├── frontend/                 # React + Vite app
+│   ├── src/
+│   │   └── app/
+│   │       ├── pages/        # Login, Signup, Home, Profile
+│   │       ├── components/   # JobCard, Layout, AppliedPopup
+│   │       └── api.ts        # API calls
+│   ├── .env.example
+│   └── package.json
+│
+├── backend/                  # Node.js + Express API
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Job.js
+│   │   └── Application.js
+│   ├── server.js
+│   ├── .env.example
+│   └── package.json
+│
+├── ml-service/               # Python FastAPI
+│   ├── main.py
+│   └── requirements.txt
+│
+├── .gitignore
 └── README.md
 ```
 
----
-
-## 🤖 ML Model
-
-Uses **TF-IDF + Cosine Similarity** to score how well a seeker's skills match a job:
-1. Tokenize skill lists
-2. Build TF-IDF vectors
-3. Compute cosine similarity (0–1)
-4. Scale to 0–100% with exact match bonus
 
 ---
 
-<div align="center">Built with ❤️ using React, Node.js, and Python</div>
+## 🤖 ML Match Score
+
+The ML service computes how well a job seeker's skills match a job posting:
+
+1. Both skill lists are **tokenized** into individual terms
+2. **TF-IDF vectors** are built for each
+3. **Cosine similarity** is calculated (0–1 range)
+4. **Exact skill match bonus** adds up to +20 points
+5. Score is scaled to **0–100%**
+```python
+# Example
+user_skills = ["React", "TypeScript", "Node.js"]
+job_skills  = ["React", "JavaScript", "Node.js", "AWS"]
+
+# → match_score: 72
+```
+
+If the ML service is unreachable, the backend falls back to a simple overlap ratio.
+
+---
+
+## 🔒 Security
+
+- Passwords hashed with **bcrypt** (12 salt rounds)
+- **JWT tokens** expire after 7 days
+- All protected routes require `Authorization: Bearer <token>`
+- Resume files stored as **base64 in MongoDB** (no file system needed)
+- CORS restricted to known frontend origins
+
+---
+
+## 📝 License
+
+copyright attached
+
+---
+
+<div align="center">
+
+Built with ❤️ using React, Node.js, and Python
+
+</div>
+
