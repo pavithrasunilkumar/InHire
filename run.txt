@@ -1,0 +1,23 @@
+C:\Users\HP\Desktop\projects\InHire
+
+cd ml-service
+
+venv\Scripts\activate
+
+python main.py
+
+
+
+-------------------------
+C:\Users\HP\Desktop\projects\InHire
+
+
+
+cd backend
+
+npm run dev
+
+
+cd frontend
+
+npm run dev

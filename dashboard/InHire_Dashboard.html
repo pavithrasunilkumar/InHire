@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>InHire — Analytics Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS & RESET
+═══════════════════════════════════════════ */
+:root {
+  --bg:        #090e1a;
+  --surface:   #111827;
+  --card:      #141d2e;
+  --border:    rgba(255,255,255,0.07);
+  --text:      #e8edf5;
+  --muted:     #64748b;
+  --accent-s:  #38bdf8;   /* seeker cyan */
+  --accent-g:  #a78bfa;   /* giver violet */
+  --green:     #34d399;
+  --orange:    #fb923c;
+  --red:       #f87171;
+  --yellow:    #fbbf24;
+  --glow-s:    rgba(56,189,248,.18);
+  --glow-g:    rgba(167,139,250,.18);
+  --r:         14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+/* ═══════════════════════════════════════════
+   ANIMATED BG GRID
+═══════════════════════════════════════════ */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(56,189,248,.03) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,.03) 1px, transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;z-index:0;
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 36px;height:64px;
+  background:rgba(9,14,26,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-family:'Syne',sans-serif;
+  font-weight:800;font-size:22px;
+  background:linear-gradient(135deg,var(--accent-s),var(--accent-g));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-0.5px;
+}
+.tabs{display:flex;gap:4px;background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;padding:4px;}
+.tab{
+  padding:7px 20px;border-radius:7px;font-size:13px;font-weight:500;
+  cursor:pointer;border:none;background:none;color:var(--muted);
+  transition:all .2s;font-family:'DM Sans',sans-serif;
+}
+.tab.active-seeker{background:var(--glow-s);color:var(--accent-s);}
+.tab.active-giver {background:var(--glow-g);color:var(--accent-g);}
+.nav-badge{
+  font-size:11px;padding:3px 10px;border-radius:99px;
+  font-weight:600;letter-spacing:.05em;
+}
+.badge-s{background:var(--glow-s);color:var(--accent-s);}
+.badge-g{background:var(--glow-g);color:var(--accent-g);}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.page{display:none;padding:32px 36px 60px;position:relative;z-index:1;}
+.page.visible{display:block;}
+.section-label{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:20px;padding-left:2px;
+}
+
+/* ═══════════════════════════════════════════
+   HERO HEADER
+═══════════════════════════════════════════ */
+.dash-hero{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:36px;
+}
+.dash-title{
+  font-family:'Syne',sans-serif;font-size:32px;font-weight:800;
+  line-height:1.15;
+}
+.dash-title span{
+  background:linear-gradient(120deg,var(--accent-s) 0%,var(--accent-g) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.dash-title.giver span{
+  background:linear-gradient(120deg,var(--accent-g) 0%,var(--orange) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-sub{color:var(--muted);font-size:14px;margin-top:6px;}
+.last-active{
+  font-size:12px;color:var(--muted);
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:8px 14px;
+}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;
+  margin-right:6px;animation:pulse 2s infinite;}
+.dot-green{background:var(--green);box-shadow:0 0 8px var(--green);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ═══════════════════════════════════════════
+   KPI CARDS
+═══════════════════════════════════════════ */
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:16px;margin-bottom:28px;
+}
+.kpi{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:22px 24px;
+  position:relative;overflow:hidden;
+  transition:transform .2s,border-color .2s;
+}
+.kpi:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.15);}
+.kpi::before{
+  content:'';position:absolute;top:0;right:0;
+  width:80px;height:80px;border-radius:50%;
+  filter:blur(30px);opacity:.5;
+}
+.kpi.cyan::before{background:var(--accent-s);}
+.kpi.violet::before{background:var(--accent-g);}
+.kpi.green::before{background:var(--green);}
+.kpi.orange::before{background:var(--orange);}
+.kpi.red::before{background:var(--red);}
+.kpi.yellow::before{background:var(--yellow);}
+.kpi-label{font-size:11px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.kpi-value{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;
+  line-height:1;margin-bottom:6px;}
+.kpi-value.cyan{color:var(--accent-s);}
+.kpi-value.violet{color:var(--accent-g);}
+.kpi-value.green{color:var(--green);}
+.kpi-value.orange{color:var(--orange);}
+.kpi-value.red{color:var(--red);}
+.kpi-value.yellow{color:var(--yellow);}
+.kpi-delta{font-size:12px;color:var(--muted);}
+.kpi-delta .up{color:var(--green);}
+.kpi-delta .dn{color:var(--red);}
+
+/* ═══════════════════════════════════════════
+   CHART GRID
+═══════════════════════════════════════════ */
+.chart-grid{display:grid;gap:20px;margin-bottom:20px;}
+.g-2{grid-template-columns:1fr 1fr;}
+.g-3{grid-template-columns:2fr 1fr 1fr;}
+.g-3b{grid-template-columns:1fr 1fr 1fr;}
+.g-full{grid-template-columns:1fr;}
+
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:24px;
+  transition:border-color .2s;
+}
+.card:hover{border-color:rgba(255,255,255,.12);}
+.card-title{
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  margin-bottom:4px;
+}
+.card-sub{font-size:12px;color:var(--muted);margin-bottom:20px;}
+.chart-wrap{position:relative;}
+.chart-wrap canvas{max-height:240px;}
+.chart-wrap.tall canvas{max-height:300px;}
+.chart-wrap.short canvas{max-height:180px;}
+
+/* ═══════════════════════════════════════════
+   TABLE
+═══════════════════════════════════════════ */
+.data-table{width:100%;border-collapse:collapse;font-size:13px;}
+.data-table th{
+  text-align:left;padding:10px 14px;
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border-bottom:1px solid var(--border);
+}
+.data-table td{
+  padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.03);
+  color:var(--text);
+}
+.data-table tr:hover td{background:rgba(255,255,255,.02);}
+.chip{
+  display:inline-block;padding:3px 9px;border-radius:6px;
+  font-size:11px;font-weight:600;
+}
+.chip-green{background:rgba(52,211,153,.12);color:var(--green);}
+.chip-cyan{background:rgba(56,189,248,.12);color:var(--accent-s);}
+.chip-violet{background:rgba(167,139,250,.12);color:var(--accent-g);}
+.chip-orange{background:rgba(251,146,60,.12);color:var(--orange);}
+.chip-red{background:rgba(248,113,113,.12);color:var(--red);}
+.chip-muted{background:rgba(100,116,139,.12);color:var(--muted);}
+
+/* ═══════════════════════════════════════════
+   SKILL BARS
+═══════════════════════════════════════════ */
+.skill-bar-wrap{margin-bottom:12px;}
+.skill-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.skill-name{font-size:13px;width:130px;flex-shrink:0;}
+.skill-track{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.skill-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.skill-count{font-size:12px;color:var(--muted);width:32px;text-align:right;}
+
+/* ═══════════════════════════════════════════
+   DONUT LEGEND
+═══════════════════════════════════════════ */
+.legend{display:flex;flex-direction:column;gap:10px;justify-content:center;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-pct{margin-left:auto;font-weight:600;font-size:13px;font-family:'Syne',sans-serif;}
+
+/* ═══════════════════════════════════════════
+   MATCH SCORE METER
+═══════════════════════════════════════════ */
+.meter-grid{display:flex;flex-direction:column;gap:14px;}
+.meter-row{display:flex;align-items:center;gap:12px;}
+.meter-label{font-size:13px;width:90px;flex-shrink:0;}
+.meter-track{flex:1;height:8px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.meter-fill{height:100%;border-radius:99px;
+  background:linear-gradient(90deg,var(--accent-s),var(--accent-g));}
+.meter-val{font-size:13px;font-weight:600;width:44px;text-align:right;font-family:'Syne',sans-serif;}
+
+/* ═══════════════════════════════════════════
+   SWIPE COUNTER VISUAL
+═══════════════════════════════════════════ */
+.swipe-visual{
+  display:flex;gap:20px;justify-content:center;margin:16px 0;
+}
+.swipe-block{
+  flex:1;border-radius:12px;padding:20px;text-align:center;
+}
+.swipe-right-block{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);}
+.swipe-left-block{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);}
+.swipe-icon{font-size:28px;margin-bottom:6px;}
+.swipe-count{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;}
+.swipe-count.right{color:var(--green);}
+.swipe-count.left{color:var(--red);}
+.swipe-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+
+/* ═══════════════════════════════════════════
+   STREAK FLAME
+═══════════════════════════════════════════ */
+.streak-display{
+  text-align:center;padding:20px 0 10px;
+}
+.flame{font-size:48px;animation:flicker .8s infinite alternate;}
+@keyframes flicker{from{text-shadow:0 0 10px #fb923c,0 0 20px #fb923c}
+  to{text-shadow:0 0 20px #f59e0b,0 0 40px #f59e0b}}
+.streak-num{
+  font-family:'Syne',sans-serif;font-size:52px;font-weight:800;
+  color:var(--orange);line-height:1;
+}
+.streak-label{font-size:13px;color:var(--muted);margin-top:4px;}
+
+/* ═══════════════════════════════════════════
+   TIMELINE BAR (applied jobs)
+═══════════════════════════════════════════ */
+.timeline-row{
+  display:flex;align-items:center;gap:12px;padding:10px 0;
+  border-bottom:1px solid var(--border);
+}
+.timeline-row:last-child{border:none;}
+.tl-score{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:15px;
+  width:42px;flex-shrink:0;
+}
+.tl-bar-wrap{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.tl-bar-fill{height:100%;border-radius:99px;}
+.tl-info{text-align:right;min-width:90px;}
+.tl-title{font-size:13px;}
+.tl-co{font-size:11px;color:var(--muted);}
+
+/* ═══════════════════════════════════════════
+   FUNNEL
+═══════════════════════════════════════════ */
+.funnel{display:flex;flex-direction:column;gap:10px;padding:10px 0;}
+.funnel-step{display:flex;align-items:center;gap:12px;}
+.funnel-bar-wrap{flex:1;height:32px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.04);}
+.funnel-bar-fill{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:12px;
+  font-size:12px;font-weight:600;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.funnel-label{width:110px;font-size:13px;color:var(--muted);flex-shrink:0;}
+.funnel-num{width:44px;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;text-align:right;}
+
+/* ═══════════════════════════════════════════
+   ANIMATE ON LOAD
+═══════════════════════════════════════════ */
+.fade-up{
+  opacity:0;transform:translateY(18px);
+  animation:fadeUp .5s ease forwards;
+}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+.delay-1{animation-delay:.05s}
+.delay-2{animation-delay:.1s}
+.delay-3{animation-delay:.15s}
+.delay-4{animation-delay:.2s}
+.delay-5{animation-delay:.25s}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════ */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--surface);border-radius:99px;}
+
+@media(max-width:900px){
+  .g-2,.g-3,.g-3b{grid-template-columns:1fr;}
+  nav{padding:0 18px;}
+  .page{padding:20px 18px 50px;}
+  .dash-hero{flex-direction:column;align-items:flex-start;gap:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════ -->
+<nav>
+  <div class="logo">InHire</div>
+  <div class="tabs">
+    <button class="tab active-seeker" onclick="switchTab('seeker',this)">
+      🎯 Job Seeker
+    </button>
+    <button class="tab" onclick="switchTab('giver',this)">
+      🏢 Job Giver
+    </button>
+  </div>
+  <span id="nav-badge" class="nav-badge badge-s">Seeker View</span>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════
+     JOB SEEKER DASHBOARD
+════════════════════════════════════════════════════════ -->
+<div id="page-seeker" class="page visible">
+
+  <div class="dash-hero fade-up">
+    <div>
+      <div class="dash-title">Pavithra Sunilkumar's <span>Dashboard</span></div>
+      <div class="hero-sub">Full Stack Developer · Mumbai · B.Tech Computer Engineering 2023</div>
+    </div>
+    <div class="last-active">
+      <span class="dot dot-green"></span>Last active today
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="section-label fade-up delay-1">Performance Overview</div>
+  <div class="kpi-grid fade-up delay-2">
+    <div class="kpi cyan">
+      <div class="kpi-label">Match Score Avg</div>
+      <div class="kpi-value cyan">74.3%</div>
+      <div class="kpi-delta"><span class="up">↑ 8%</span> vs last month</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Jobs Applied</div>
+      <div class="kpi-value green">47</div>
+      <div class="kpi-delta"><span class="up">↑ 12</span> this week</div>
+    </div>
+    <div class="kpi violet">
+      <div class="kpi-label">Shortlisted</div>
+      <div class="kpi-value violet">11</div>
+      <div class="kpi-delta">23.4% shortlist rate</div>
+    </div>
+    <div class="kpi orange">
+      <div class="kpi-label">Login Streak</div>
+      <div class="kpi-value orange">28 🔥</div>
+      <div class="kpi-delta">Personal best!</div>
+    </div>
+    <div class="kpi yellow">
+      <div class="kpi-label">Profile Score</div>
+      <div class="kpi-value yellow">91%</div>
+      <div class="kpi-delta">Resume uploaded ✓</div>
+    </div>
+  </div>
+
+  <!-- Row 1: Swipe behaviour + Outcome donut + Streak -->
+  <div class="chart-grid g-3 fade-up delay-3">
+
+    <div class="card">
+      <div class="card-title">Swipe Activity</div>
+      <div class="card-sub">All-time swipe breakdown</div>
+      <div class="swipe-visual">
+        <div class="swipe-block swipe-right-block">
+          <div class="swipe-icon">👉</div>
+          <div class="swipe-count right">142</div>
+          <div class="swipe-sub">Applied</div>
+        </div>
+        <div class="swipe-block swipe-left-block">
+          <div class="swipe-icon">👈</div>
+          <div class="swipe-count left">219</div>
+          <div class="swipe-sub">Skipped</div>
+        </div>
+      </div>
+      <div class="chart-wrap short">
+        <canvas id="swipeChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Application Outcomes</div>
+      <div class="card-sub">Current status breakdown</div>
+      <div style="display:flex;align-items:center;gap:18px;">
+        <div class="chart-wrap" style="width:130px;flex-shrink:0">
+          <canvas id="outcomeChart"></canvas>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#34d399"></span>Hired<span class="legend-pct" style="color:#34d399">6%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#38bdf8"></span>Shortlisted<span class="legend-pct" style="color:#38bdf8">23%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f87171"></span>Rejected<span class="legend-pct" style="color:#f87171">36%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#64748b"></span>Under Review<span class="legend-pct" style="color:#64748b">35%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div class="card-title" style="text-align:center;width:100%">Daily Streak</div>
+      <div class="card-sub" style="text-align:center">Keep swiping to maintain it</div>
+      <div class="streak-display">
+        <div class="flame">🔥</div>
+        <div class="streak-num">28</div>
+        <div class="streak-label">days in a row</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: Match score trend + Skill coverage -->
+  <div class="chart-grid g-2 fade-up delay-4">
+
+    <div class="card">
+      <div class="card-title">Match Score Over Time</div>
+      <div class="card-sub">Weekly average ML match % for viewed jobs</div>
+      <div class="chart-wrap tall">
+        <canvas id="matchTrendChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Your Skill Demand Coverage</div>
+      <div class="card-sub">How often your skills appear in job requirements</div>
+      <div class="skill-bar-wrap" id="skillBars"></div>
+    </div>
+  </div>
+
+  <!-- Row 3: Applications by city + salary expectation vs offers -->
+  <div class="chart-grid g-2 fade-up delay-5">
+
+    <div class="card">
+      <div class="card-title">Applications by City</div>
+      <div class="card-sub">Where you've been swiping right</div>
+      <div class="chart-wrap tall">
+        <canvas id="cityChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Salary Range vs Your Expectation</div>
+      <div class="card-sub">Posted job salaries vs your target (₹ LPA)</div>
+      <div class="chart-wrap tall">
+        <canvas id="salaryChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 4: Applied jobs table -->
+  <div class="card fade-up delay-5">
+    <div class="card-title">Recent Applications</div>
+    <div class="card-sub">Your last 8 swipe-right jobs and current status</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Job Title</th><th>Company</th><th>City</th><th>Match %</th><th>Applied</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="seekerTable"></tbody>
+    </table>
+  </div>
+
+</div><!-- /page-seeker -->
+
+
+<!-- ════════════════════════════════════════════════════════
+     JOB GIVER DASHBOARD
+════════════════════════════════════════════════════════ -->
+<div id="page-giver" class="page">
+
+  <div class="dash-hero fade-up">
+    <div>
+      <div class="dash-title giver">TechNova Labs <span>Dashboard</span></div>
+      <div class="hero-sub">FinTech · Bengaluru · 250 employees · Est. 2019</div>
+    </div>
+    <div class="last-active">
+      <span class="dot dot-green"></span>Last login: Today
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="section-label fade-up delay-1">Hiring Overview</div>
+  <div class="kpi-grid fade-up delay-2">
+    <div class="kpi violet">
+      <div class="kpi-label">Total Applicants</div>
+      <div class="kpi-value violet">384</div>
+      <div class="kpi-delta"><span class="up">↑ 42</span> this week</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Active Jobs</div>
+      <div class="kpi-value green">9</div>
+      <div class="kpi-delta">of 14 posted</div>
+    </div>
+    <div class="kpi orange">
+      <div class="kpi-label">Avg Time to Close</div>
+      <div class="kpi-value orange">31d</div>
+      <div class="kpi-delta"><span class="up">↓ 6d</span> vs last quarter</div>
+    </div>
+    <div class="kpi cyan">
+      <div class="kpi-label">Avg Match Score</div>
+      <div class="kpi-value cyan">62.8%</div>
+      <div class="kpi-delta">Across all postings</div>
+    </div>
+    <div class="kpi yellow">
+      <div class="kpi-label">Hired This Quarter</div>
+      <div class="kpi-value yellow">7</div>
+      <div class="kpi-delta">1.8% conversion rate</div>
+    </div>
+  </div>
+
+  <!-- Row 1: Applicant funnel + Outcome pie + Match dist -->
+  <div class="chart-grid g-3 fade-up delay-3">
+
+    <div class="card">
+      <div class="card-title">Hiring Funnel</div>
+      <div class="card-sub">Applicant progression across all active roles</div>
+      <div class="funnel" id="funnelChart"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Decision Breakdown</div>
+      <div class="card-sub">All applications reviewed so far</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+        <div class="chart-wrap" style="width:140px">
+          <canvas id="giverOutcomeChart"></canvas>
+        </div>
+        <div class="legend" style="width:100%">
+          <div class="legend-item"><span class="legend-dot" style="background:#34d399"></span>Hired<span class="legend-pct" style="color:#34d399">1.8%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#a78bfa"></span>Shortlisted<span class="legend-pct" style="color:#a78bfa">24%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f87171"></span>Rejected<span class="legend-pct" style="color:#f87171">38%</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#64748b"></span>Pending<span class="legend-pct" style="color:#64748b">36%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Match Score Distribution</div>
+      <div class="card-sub">Applicant quality bands</div>
+      <div class="chart-wrap">
+        <canvas id="matchDistChart"></canvas>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="meter-grid" id="matchMeters"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 2: Applicants per job + Postings by city -->
+  <div class="chart-grid g-2 fade-up delay-4">
+
+    <div class="card">
+      <div class="card-title">Applicants per Job Posting</div>
+      <div class="card-sub">Volume of applications each open role has received</div>
+      <div class="chart-wrap tall">
+        <canvas id="jobApplicantsChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Applicant Skill Coverage</div>
+      <div class="card-sub">Top skills seen across all applicants</div>
+      <div class="skill-bar-wrap" id="giverSkillBars"></div>
+    </div>
+  </div>
+
+  <!-- Row 3: Applications over time + Salary range comparison -->
+  <div class="chart-grid g-2 fade-up delay-5">
+
+    <div class="card">
+      <div class="card-title">Application Volume Over Time</div>
+      <div class="card-sub">Weekly inbound applications (last 16 weeks)</div>
+      <div class="chart-wrap tall">
+        <canvas id="appVolumeChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Salary Offered vs Market Avg</div>
+      <div class="card-sub">Your posted ranges vs industry benchmark (₹ LPA)</div>
+      <div class="chart-wrap tall">
+        <canvas id="salaryBenchChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 4: Top applicants table -->
+  <div class="card fade-up delay-5">
+    <div class="card-title">Top Shortlisted Applicants</div>
+    <div class="card-sub">Ranked by ML match score across all open roles</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Name</th><th>Role Applied</th><th>City</th><th>Experience</th><th>Match %</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="giverTable"></tbody>
+    </table>
+  </div>
+
+</div><!-- /page-giver -->
+
+
+<script>
+/* ═══════════════════════════════════
+   GLOBAL CHART DEFAULTS
+═══════════════════════════════════ */
+Chart.defaults.color        = '#64748b';
+Chart.defaults.font.family  = "'DM Sans', sans-serif";
+Chart.defaults.font.size    = 12;
+Chart.defaults.borderColor  = 'rgba(255,255,255,0.06)';
+
+const C = {
+  cyan:'#38bdf8', violet:'#a78bfa', green:'#34d399',
+  orange:'#fb923c', red:'#f87171', yellow:'#fbbf24',
+  muted:'#64748b',
+  cyanA:'rgba(56,189,248,.15)', violetA:'rgba(167,139,250,.15)',
+  greenA:'rgba(52,211,153,.15)', orangeA:'rgba(251,146,60,.15)',
+};
+
+function gridOpts(){ return {
+  color:'rgba(255,255,255,0.05)',
+  drawBorder:false,
+};}
+
+/* ═══════════════════════════════════
+   TAB SWITCH
+═══════════════════════════════════ */
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(t=>t.className='tab');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('visible'));
+  const badge = document.getElementById('nav-badge');
+  if(tab==='seeker'){
+    btn.className='tab active-seeker';
+    badge.className='nav-badge badge-s';
+    badge.textContent='Seeker View';
+    document.getElementById('page-seeker').classList.add('visible');
+  } else {
+    btn.className='tab active-giver';
+    badge.className='nav-badge badge-g';
+    badge.textContent='Giver View';
+    document.getElementById('page-giver').classList.add('visible');
+  }
+}
+
+/* ════════════════════════════════════════
+   ① SEEKER CHARTS
+════════════════════════════════════════ */
+
+// Swipe weekly bar
+new Chart(document.getElementById('swipeChart'),{
+  type:'bar',
+  data:{
+    labels:['W1','W2','W3','W4','W5','W6','W7','W8'],
+    datasets:[
+      {label:'Applied',data:[8,12,6,14,9,18,11,15],backgroundColor:C.greenA,borderColor:C.green,borderWidth:2,borderRadius:5},
+      {label:'Skipped',data:[20,18,25,14,22,16,28,18],backgroundColor:'rgba(248,113,113,.12)',borderColor:C.red,borderWidth:2,borderRadius:5},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}`}}},
+    scales:{
+      x:{grid:gridOpts(),ticks:{color:C.muted}},
+      y:{grid:gridOpts(),ticks:{color:C.muted},beginAtZero:true}
+    }
+  }
+});
+
+// Outcome donut
+new Chart(document.getElementById('outcomeChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Hired','Shortlisted','Rejected','Under Review'],
+    datasets:[{
+      data:[6,23,36,35],
+      backgroundColor:[C.green,C.cyan,C.red,C.muted],
+      borderWidth:0,hoverOffset:4
+    }]
+  },
+  options:{
+    cutout:'72%',responsive:true,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}%`}}}
+  }
+});
+
+// Match score trend
+new Chart(document.getElementById('matchTrendChart'),{
+  type:'line',
+  data:{
+    labels:['Jan W1','W2','W3','W4','Feb W1','W2','W3','W4','Mar W1','W2','W3','W4'],
+    datasets:[{
+      label:'Avg Match %',
+      data:[52,58,54,63,61,66,60,68,70,72,74,74.3],
+      borderColor:C.cyan,backgroundColor:C.cyanA,
+      tension:.4,fill:true,pointRadius:4,pointBackgroundColor:C.cyan,
+      borderWidth:2.5,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:gridOpts(),ticks:{color:C.muted,maxRotation:30}},
+      y:{grid:gridOpts(),ticks:{color:C.muted,callback:v=>v+'%'},min:40,max:100}
+    }
+  }
+});
+
+// Skill bars
+const seekerSkills=[
+  {name:'React',count:68,color:C.cyan},
+  {name:'JavaScript',count:72,color:C.cyan},
+  {name:'Node.js',count:55,color:C.violet},
+  {name:'MongoDB',count:48,color:C.green},
+  {name:'TypeScript',count:44,color:C.violet},
+  {name:'Python',count:38,color:C.orange},
+  {name:'Docker',count:30,color:C.yellow},
+  {name:'AWS',count:22,color:C.orange},
+];
+const sbWrap=document.getElementById('skillBars');
+seekerSkills.forEach(s=>{
+  sbWrap.innerHTML+=`
+  <div class="skill-row">
+    <span class="skill-name">${s.name}</span>
+    <div class="skill-track"><div class="skill-fill" style="width:${s.count}%;background:${s.color}"></div></div>
+    <span class="skill-count">${s.count}%</span>
+  </div>`;
+});
+
+// City bar chart
+new Chart(document.getElementById('cityChart'),{
+  type:'bar',
+  data:{
+    labels:['Bengaluru','Mumbai','Pune','Hyderabad','Delhi','Chennai','Noida'],
+    datasets:[{
+      label:'Applications',
+      data:[18,12,8,5,4,3,2],
+      backgroundColor:[C.cyan,C.violet,C.cyan,C.green,C.muted,C.muted,C.muted].map(c=>c.includes('#')?c+'33':c),
+      borderColor:[C.cyan,C.violet,C.cyan,C.green,C.muted,C.muted,C.muted],
+      borderWidth:2,borderRadius:6,
+    }]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:gridOpts(),ticks:{color:C.muted}},
+      y:{grid:{display:false},ticks:{color:C.text||'#e8edf5'}}
+    }
+  }
+});
+
+// Salary chart
+new Chart(document.getElementById('salaryChart'),{
+  type:'bar',
+  data:{
+    labels:['Frontend Dev','Full Stack','Backend Eng','ML Engineer','Data Analyst','DevOps'],
+    datasets:[
+      {label:'Job Min',data:[8,10,9,14,7,11],backgroundColor:C.cyanA,borderColor:C.cyan,borderWidth:2,borderRadius:[5,0,0,5]},
+      {label:'Job Max',data:[18,22,20,30,16,24],backgroundColor:C.violetA,borderColor:C.violet,borderWidth:2,borderRadius:[0,5,5,0]},
+      {label:'Your Target',type:'line',data:[15,18,16,25,12,20],borderColor:C.yellow,borderWidth:2,pointRadius:5,pointBackgroundColor:C.yellow,tension:.3},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:14,color:'#94a3b8'}}},
+    scales:{
+      x:{grid:gridOpts(),ticks:{color:C.muted,maxRotation:30}},
+      y:{grid:gridOpts(),ticks:{color:C.muted,callback:v=>'₹'+v+'L'}}
+    }
+  }
+});
+
+// Applied jobs table
+const seekerApps=[
+  {title:'Full Stack Developer',co:'TechNova Labs',city:'Bengaluru',match:88,date:'Apr 20',status:'Shortlisted'},
+  {title:'Frontend Engineer',co:'CloudPilot',city:'Pune',match:82,date:'Apr 18',status:'Under Review'},
+  {title:'React Developer',co:'NexGen Solutions',city:'Mumbai',match:79,date:'Apr 15',status:'Shortlisted'},
+  {title:'Node.js Backend Dev',co:'HireWave',city:'Bengaluru',match:74,date:'Apr 12',status:'Rejected'},
+  {title:'MERN Stack Dev',co:'ByteCraft',city:'Noida',match:71,date:'Apr 10',status:'Under Review'},
+  {title:'Software Engineer',co:'SkillBridge',city:'Hyderabad',match:65,date:'Apr 7',status:'Rejected'},
+  {title:'Full Stack Intern',co:'InnoHub',city:'Chennai',match:62,date:'Apr 4',status:'Hired'},
+  {title:'JS Developer',co:'GrowthHQ',city:'Delhi',match:58,date:'Apr 1',status:'Under Review'},
+];
+const statusChip={
+  'Shortlisted':'chip-cyan','Hired':'chip-green',
+  'Rejected':'chip-red','Under Review':'chip-muted'
+};
+const tBody=document.getElementById('seekerTable');
+seekerApps.forEach(r=>{
+  tBody.innerHTML+=`<tr>
+    <td><strong>${r.title}</strong></td>
+    <td>${r.co}</td><td>${r.city}</td>
+    <td><span style="font-family:'Syne',sans-serif;font-weight:700;color:${r.match>=75?'#38bdf8':r.match>=55?'#a78bfa':'#f87171'}">${r.match}%</span></td>
+    <td style="color:#64748b">${r.date}</td>
+    <td><span class="chip ${statusChip[r.status]}">${r.status}</span></td>
+  </tr>`;
+});
+
+
+/* ════════════════════════════════════════
+   ② JOB GIVER CHARTS
+════════════════════════════════════════ */
+
+// Hiring funnel
+const funnel=[
+  {label:'Total Views',n:1840,color:C.muted,pct:100},
+  {label:'Applied',n:384,color:C.violet,pct:21},
+  {label:'Reviewed',n:240,color:C.cyan,pct:13},
+  {label:'Shortlisted',n:92,color:C.yellow,pct:5},
+  {label:'Hired',n:7,color:C.green,pct:0.4},
+];
+const fEl=document.getElementById('funnelChart');
+funnel.forEach(f=>{
+  fEl.innerHTML+=`
+  <div class="funnel-step">
+    <span class="funnel-label">${f.label}</span>
+    <div class="funnel-bar-wrap">
+      <div class="funnel-bar-fill" style="width:${f.pct}%;background:${f.color}22;border:1px solid ${f.color}44;color:${f.color}">
+        ${f.pct}%
+      </div>
+    </div>
+    <span class="funnel-num" style="color:${f.color}">${f.n.toLocaleString()}</span>
+  </div>`;
+});
+
+// Giver outcome donut
+new Chart(document.getElementById('giverOutcomeChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Hired','Shortlisted','Rejected','Pending'],
+    datasets:[{
+      data:[1.8,24,38,36],
+      backgroundColor:[C.green,C.violet,C.red,C.muted],
+      borderWidth:0,hoverOffset:4
+    }]
+  },
+  options:{
+    cutout:'72%',responsive:true,
+    plugins:{legend:{display:false}}
+  }
+});
+
+// Match distribution bar
+new Chart(document.getElementById('matchDistChart'),{
+  type:'bar',
+  data:{
+    labels:['<40%','40-55%','55-70%','70-85%','>85%'],
+    datasets:[{
+      data:[18,72,134,110,50],
+      backgroundColor:[C.red,C.orange,C.yellow,C.cyan,C.green].map(c=>c+'33'),
+      borderColor:[C.red,C.orange,C.yellow,C.cyan,C.green],
+      borderWidth:2,borderRadius:5,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:gridOpts(),ticks:{color:C.muted}},
+      y:{grid:gridOpts(),ticks:{color:C.muted},beginAtZero:true}
+    }
+  }
+});
+const meters=[
+  {label:'High >70%',val:160,pct:42},
+  {label:'Mid 40-70%',val:206,pct:54},
+  {label:'Low <40%',val:18,pct:5},
+];
+const mEl=document.getElementById('matchMeters');
+meters.forEach(m=>{
+  mEl.innerHTML+=`<div class="meter-row">
+    <span class="meter-label">${m.label}</span>
+    <div class="meter-track"><div class="meter-fill" style="width:${m.pct}%"></div></div>
+    <span class="meter-val">${m.val}</span>
+  </div>`;
+});
+
+// Applicants per job
+new Chart(document.getElementById('jobApplicantsChart'),{
+  type:'bar',
+  data:{
+    labels:['Full Stack Dev','ML Engineer','Frontend Dev','Data Analyst','DevOps Eng','iOS Dev','QA Engineer','Cloud Arch','BA'],
+    datasets:[{
+      label:'Applicants',
+      data:[84,62,58,46,38,34,28,22,12],
+      backgroundColor:C.violetA,borderColor:C.violet,borderWidth:2,borderRadius:6,
+    }]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:gridOpts(),ticks:{color:C.muted}},
+      y:{grid:{display:false},ticks:{color:'#e8edf5'}}
+    }
+  }
+});
+
+// Giver skill bars
+const giverSkills=[
+  {name:'Python',count:78,color:C.orange},
+  {name:'React',count:65,color:C.cyan},
+  {name:'Machine Learning',count:60,color:C.violet},
+  {name:'AWS',count:55,color:C.yellow},
+  {name:'SQL',count:52,color:C.green},
+  {name:'Docker',count:48,color:C.cyan},
+  {name:'TypeScript',count:40,color:C.violet},
+  {name:'TensorFlow',count:32,color:C.orange},
+];
+const gsbWrap=document.getElementById('giverSkillBars');
+giverSkills.forEach(s=>{
+  gsbWrap.innerHTML+=`
+  <div class="skill-row">
+    <span class="skill-name">${s.name}</span>
+    <div class="skill-track"><div class="skill-fill" style="width:${s.count}%;background:${s.color}"></div></div>
+    <span class="skill-count">${s.count}%</span>
+  </div>`;
+});
+
+// Application volume over time
+const weeks=Array.from({length:16},(_,i)=>`W${i+1}`);
+const vol=[12,18,14,22,28,24,32,27,38,42,36,48,44,52,58,62];
+new Chart(document.getElementById('appVolumeChart'),{
+  type:'line',
+  data:{
+    labels:weeks,
+    datasets:[{
+      label:'Applications',
+      data:vol,
+      borderColor:C.violet,backgroundColor:C.violetA,
+      tension:.4,fill:true,pointRadius:3,pointBackgroundColor:C.violet,borderWidth:2.5,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:gridOpts(),ticks:{color:C.muted}},
+      y:{grid:gridOpts(),ticks:{color:C.muted},beginAtZero:true}
+    }
+  }
+});
+
+// Salary benchmark
+new Chart(document.getElementById('salaryBenchChart'),{
+  type:'bar',
+  data:{
+    labels:['Full Stack','ML Eng','Frontend','DevOps','Data Analyst','Cloud Arch'],
+    datasets:[
+      {label:'TechNova Min',data:[12,18,10,14,8,20],backgroundColor:C.violetA,borderColor:C.violet,borderWidth:2,borderRadius:5},
+      {label:'TechNova Max',data:[24,35,20,28,18,40],backgroundColor:C.cyanA,borderColor:C.cyan,borderWidth:2,borderRadius:5},
+      {label:'Market Avg',type:'line',data:[18,26,15,21,13,30],borderColor:C.green,borderWidth:2,pointRadius:5,pointBackgroundColor:C.green,tension:.3},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:14,color:'#94a3b8'}}},
+    scales:{
+      x:{grid:gridOpts(),ticks:{color:C.muted,maxRotation:30}},
+      y:{grid:gridOpts(),ticks:{color:C.muted,callback:v=>'₹'+v+'L'}}
+    }
+  }
+});
+
+// Top shortlisted applicants table
+const topApps=[
+  {name:'Aarav Sharma',role:'Full Stack Dev',city:'Bengaluru',exp:'3.2 yrs',match:94,status:'Shortlisted'},
+  {name:'Priya Nair',role:'ML Engineer',city:'Hyderabad',exp:'4.5 yrs',match:91,status:'Shortlisted'},
+  {name:'Rohan Mehta',role:'Full Stack Dev',city:'Mumbai',exp:'2.8 yrs',match:88,status:'Shortlisted'},
+  {name:'Kavya Iyer',role:'Frontend Dev',city:'Chennai',exp:'1.5 yrs',match:85,status:'Shortlisted'},
+  {name:'Vikram Reddy',role:'Data Analyst',city:'Bengaluru',exp:'5.1 yrs',match:83,status:'Hired'},
+  {name:'Anjali Gupta',role:'DevOps Engineer',city:'Pune',exp:'3.8 yrs',match:81,status:'Shortlisted'},
+  {name:'Siddharth Rao',role:'ML Engineer',city:'Bengaluru',exp:'6.0 yrs',match:79,status:'Shortlisted'},
+  {name:'Neha Patel',role:'Cloud Architect',city:'Noida',exp:'7.2 yrs',match:77,status:'Under Review'},
+];
+const gBody=document.getElementById('giverTable');
+topApps.forEach(r=>{
+  gBody.innerHTML+=`<tr>
+    <td><strong>${r.name}</strong></td>
+    <td>${r.role}</td><td>${r.city}</td><td style="color:#64748b">${r.exp}</td>
+    <td><span style="font-family:'Syne',sans-serif;font-weight:700;color:${r.match>=85?'#34d399':r.match>=75?'#38bdf8':'#a78bfa'}">${r.match}%</span></td>
+    <td><span class="chip ${statusChip[r.status]}">${r.status}</span></td>
+  </tr>`;
+});
+</script>
+</body>
+</html>
