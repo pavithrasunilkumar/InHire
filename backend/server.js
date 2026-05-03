@@ -12,7 +12,13 @@ const Application = require('./models/Application');
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4173'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://localhost:4173',
+    'https://inhire.vercel.app',
+    /\.vercel\.app$/,
+  ],
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
