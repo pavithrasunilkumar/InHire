@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 import math
 from collections import Counter
 
-app = FastAPI(title="IntriVue ML Recommendation Service")
+app = FastAPI(title="InHire ML Service")
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,7 +27,6 @@ class RecommendResponse(BaseModel):
 
 
 def tokenize(skills: List[str]) -> List[str]:
-    """Flatten skill list into individual tokens (lowercased)."""
     tokens = []
     for skill in skills:
         parts = skill.lower().replace(",", " ").replace("/", " ").split()
@@ -36,13 +35,11 @@ def tokenize(skills: List[str]) -> List[str]:
 
 
 def build_tfidf_vector(tokens: List[str], vocab: List[str]) -> List[float]:
-    """Build a simple TF-IDF-like vector for a skill token list."""
     tf = Counter(tokens)
     total = max(len(tokens), 1)
     vector = []
     for term in vocab:
         tf_score = tf.get(term, 0) / total
-        # IDF approximation — rare terms in combined vocab weighted higher
         idf = 1.0 + math.log(1 + 1 / (1 + tf.get(term, 0)))
         vector.append(tf_score * idf)
     return vector
@@ -59,18 +56,14 @@ def cosine_similarity(vec_a: List[float], vec_b: List[float]) -> float:
     return dot / (mag_a * mag_b)
 
 
-def compute_match_score(user_skills: List[str], job_skills: List[str]) -> dict:
-    # Exact match for matched/missing display
+def compute_match(user_skills: List[str], job_skills: List[str]) -> dict:
     user_lower = {s.lower().strip() for s in user_skills}
-    job_lower_list = [s.lower().strip() for s in job_skills]
     matched = [s for s in job_skills if s.lower().strip() in user_lower]
     missing = [s for s in job_skills if s.lower().strip() not in user_lower]
 
     if not user_skills or not job_skills:
-        score = 30 if not user_skills and not job_skills else 20
-        return {"match_score": score, "matched_skills": matched, "missing_skills": missing}
+        return {"match_score": 20, "matched_skills": matched, "missing_skills": missing}
 
-    # TF-IDF cosine similarity
     user_tokens = tokenize(user_skills)
     job_tokens = tokenize(job_skills)
     vocab = list(set(user_tokens + job_tokens))
@@ -79,17 +72,12 @@ def compute_match_score(user_skills: List[str], job_skills: List[str]) -> dict:
     job_vec = build_tfidf_vector(job_tokens, vocab)
 
     similarity = cosine_similarity(user_vec, job_vec)
-
-    # Scale: cosine 0..1 → score 0..100, with a slight boost for partial overlaps
     raw_score = similarity * 100
 
-    # Bonus for exact skill matches
-    if job_lower_list:
-        exact_ratio = len(matched) / len(job_lower_list)
-        bonus = exact_ratio * 20  # up to 20 point bonus
-        raw_score = min(100, raw_score + bonus)
+    if job_skills:
+        exact_ratio = len(matched) / len(job_skills)
+        raw_score = min(100, raw_score + exact_ratio * 20)
 
-    # Ensure minimum 10 if any skills exist
     score = max(10, round(raw_score))
 
     return {
@@ -101,8 +89,8 @@ def compute_match_score(user_skills: List[str], job_skills: List[str]) -> dict:
 
 @app.post("/recommend", response_model=RecommendResponse)
 async def recommend(request: RecommendRequest):
-    result = compute_match_score(request.user_skills, request.job_skills)
-    return RecommendResponse(**result)
+    result = compute_match(request.user_skills, request.job_skills)
+    return result
 
 
 @app.get("/health")
