@@ -2,21 +2,26 @@
 
 #  InHire - Intelligent Swipe-Based Opportunity Discovery Platform
 
+🌐 Live Deployment - [Visit InHire](https://in-hire.vercel.app/login)
+
+![Status](https://img.shields.io/badge/Status-Active-success)
+![Version](https://img.shields.io/badge/Version-v2.0-blue)
+![React](https://img.shields.io/badge/Frontend-React.js-61DAFB?style=for-the-badge&logo=react)
+![JavaScript](https://img.shields.io/badge/Language-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/API-Express.js-000000?style=for-the-badge&logo=express)
+![Machine Learning](https://img.shields.io/badge/AI-Machine%20Learning-orange?style=for-the-badge)
+![NLP](https://img.shields.io/badge/AI-NLP-red?style=for-the-badge)
+![Recommendation System](https://img.shields.io/badge/System-Recommendation%20Engine-blueviolet?style=for-the-badge)
+![REST API](https://img.shields.io/badge/API-REST%20API-02569B?style=for-the-badge)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Firebase](https://img.shields.io/badge/Auth-Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Vercel](https://img.shields.io/badge/Deployment-Vercel-black?style=for-the-badge&logo=vercel)
+![Responsive UI](https://img.shields.io/badge/UI-Responsive-success?style=for-the-badge)
+![License](https://img.shields.io/badge/License-Non--Commercial-red)
 
 
-### AI-Powered Job Matching Platform
-
-[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-4.18-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Vite](https://img.shields.io/badge/Vite-6.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-
-**Tinder-style job swiping · ML match scoring · Resume transfer to recruiters**
+**Swipe-style job swiping · ML match scoring · Resume transfer to recruiters**
 
 [Features](#-features) · [Demo Flow](#-demo-flow) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [API Reference](#-api-reference)
 
@@ -120,7 +125,7 @@ Register → Login → Dashboard
 
 **Clone the repository**
 ```bash
-git clone https://github.com/YOUR_USERNAME/inhire.git
+git clone https://github.com/pavithra_sunilkumar/inhire.git
 cd inhire
 ```
 
@@ -159,20 +164,6 @@ cp .env.example .env
 npm run dev
 # ✅ Running on http://localhost:5173
 ```
-
-Open **http://localhost:5173** 🎉
-
----
-
-## ⚙️ Environment Variables
-
-
-### `frontend/.env`
-```env
-VITE_API_URL=http://localhost:5000
-```
-
----
 
 ## 📡 API Reference
 
@@ -274,16 +265,26 @@ If the ML service is unreachable, the backend falls back to a simple overlap rat
 - CORS restricted to known frontend origins
 
 ---
+# 👩‍💻 Author
 
+## Pavithra S
+
+- LinkedIn: https://linkedin.com/in/pavithra-sunilkumar68
+- GitHub: https://github.com/pavithrasunilkumar
+- Portfolio: https://vermillion-panda-a08876.netlify.app/
+
+---
+
+# ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
+
+---
 ## 📝 License
 
 copyright attached
 
 ---
 
-<div align="center">
 
-Built with ❤️ using React, Node.js, and Python
-
-</div>
 
