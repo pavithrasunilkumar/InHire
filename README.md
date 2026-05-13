@@ -271,7 +271,7 @@ If the ML service is unreachable, the backend falls back to a simple overlap rat
 
 - LinkedIn: https://linkedin.com/in/pavithra-sunilkumar68
 - GitHub: https://github.com/pavithrasunilkumar
-- Portfolio: https://vermillion-panda-a08876.netlify.app/
+
 
 ---
 
