@@ -56,10 +56,10 @@ The system integrates a React + Vite frontend, a Node.js + Express backend, and 
 - **Company Profile** — Editable company info page
 
 ### Platform
-- 🔐 **JWT Authentication** — Secure login with 7-day tokens
-- 🛡️ **Role-based Access** — Separate flows for job seekers and companies
-- 🗄️ **MongoDB Atlas** — Cloud database, all data persisted
-- ⚡ **Hot Reload** — Vite dev server for instant frontend updates
+- **JWT Authentication** — Secure login with 7-day tokens
+- **Role-based Access** — Separate flows for job seekers and companies
+- **MongoDB Atlas** — Cloud database, all data persisted
+- **Hot Reload** — Vite dev server for instant frontend updates
 
 ---
 
