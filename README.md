@@ -270,7 +270,7 @@ If the ML service is unreachable, the backend falls back to a simple overlap rat
 ## Pavithra Sunilkumar and Saksham Midha
 
 - LinkedIn: https://linkedin.com/in/pavithra-sunilkumar68 || https://linkedin.com/in/saksham-midha
-- GitHub: https://github.com/pavithrasunilkumar || https://github.com/SakshamxMidha
+
 
 
 ---
