@@ -41,19 +41,19 @@ The system integrates a React + Vite frontend, a Node.js + Express backend, and 
 ## ✨ Features
 
 ### For Job Seekers
-- 🃏 **Swipe UI** — Tinder-style job cards, swipe right to apply, left to skip
-- 🤖 **ML Match Score** — TF-IDF cosine similarity shows how well your skills match each job
-- 📄 **Resume Upload** — PDF stored in database, automatically sent to recruiters on apply
-- 📊 **Dashboard** — Track all jobs you've applied to
-- 🔥 **Streak Counter** — Daily swipe streak to keep you motivated
-- 👤 **Editable Profile** — Update skills, education, work experience anytime
+- **Swipe UI** — Tinder-style job cards, swipe right to apply, left to skip
+- **ML Match Score** — TF-IDF cosine similarity shows how well your skills match each job
+- **Resume Upload** — PDF stored in database, automatically sent to recruiters on apply
+- **Dashboard** — Track all jobs you've applied to
+- **Streak Counter** — Daily swipe streak to keep you motivated
+- **Editable Profile** — Update skills, education, work experience anytime
 
 ### For Companies
-- 📋 **Job Posting** — Create jobs with title, description, location, salary, required skills
-- 👥 **Applicant Viewer** — See every applicant per job with full profile details
-- 📥 **Resume Download** — Download the actual PDF resume of each applicant
-- ✅ **Close Jobs** — Close a job once filled — removed from seeker swipe cards instantly
-- 🏢 **Company Profile** — Editable company info page
+- **Job Posting** — Create jobs with title, description, location, salary, required skills
+- **Applicant Viewer** — See every applicant per job with full profile details
+- **Resume Download** — Download the actual PDF resume of each applicant
+- **Close Jobs** — Close a job once filled — removed from seeker swipe cards instantly
+- **Company Profile** — Editable company info page
 
 ### Platform
 - 🔐 **JWT Authentication** — Secure login with 7-day tokens
