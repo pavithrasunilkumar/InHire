@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { SplashScreen, Watermark } from "./components/BrandGate";
+import { useState } from 'react';
+import { RouterProvider } from 'react-router';
+import { router } from './routes';
+import { SplashScreen, Watermark } from './components/BrandGate';
 
-function App() {
+export default function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   if (showSplash) {
@@ -10,7 +12,7 @@ function App() {
 
   return (
     <>
-      {/* your existing routes/layout stay exactly as they are */}
+      <RouterProvider router={router} />
       <Watermark />
     </>
   );
