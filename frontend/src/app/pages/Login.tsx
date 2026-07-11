@@ -48,9 +48,7 @@ export function Login() {
             through endless listings. InHire learns what you're good at, finds
             opportunities you'll actually love, and lets you apply with a single swipe.
           </p>
-          <p className="text-white font-semibold mb-10">
-            ✨ Swipe. Match. Get Hired.
-          </p>
+        
 
           <div className="space-y-6">
             <div className="flex gap-4">
