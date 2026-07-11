@@ -58,7 +58,7 @@ export function Login() {
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-white mb-1">💫 Swipe Through Opportunities</h3>
+                <h3 className="font-semibold text-white mb-1">Swipe Through Opportunities</h3>
                 <p className="text-blue-100 text-sm">
                   Discover jobs the way social apps discover content you'll love. Swipe
                   right on opportunities that excite you, skip the ones that don't, and
@@ -72,7 +72,7 @@ export function Login() {
                 <Brain className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-white mb-1">🧠 AI Match Intelligence</h3>
+                <h3 className="font-semibold text-white mb-1"> AI Match Intelligence</h3>
                 <p className="text-blue-100 text-sm">
                   Don't waste time guessing if you're qualified. Every job comes with an
                   AI-generated compatibility score, highlighting exactly how your skills,
@@ -86,7 +86,7 @@ export function Login() {
                 <Zap className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-white mb-1">⚡ Apply in Seconds</h3>
+                <h3 className="font-semibold text-white mb-1"> Apply in Seconds</h3>
                 <p className="text-blue-100 text-sm">
                   One swipe is all it takes. Your profile and resume are instantly
                   submitted—no repetitive forms, no uploading the same resume over and
