@@ -41,7 +41,7 @@ The system integrates a React + Vite frontend, a Node.js + Express backend, and 
 ## ✨ Features
 
 ### For Job Seekers
-- **Swipe UI** — Tinder-style job cards, swipe right to apply, left to skip
+- **Swipe UI** —  swipe right to apply, left to skip
 - **ML Match Score** — TF-IDF cosine similarity shows how well your skills match each job
 - **Resume Upload** — PDF stored in database, automatically sent to recruiters on apply
 - **Dashboard** — Track all jobs you've applied to
