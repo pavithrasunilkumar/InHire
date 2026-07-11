@@ -50,20 +50,7 @@ export function Login() {
           </p>
         
 
-          <div className="space-y-6">
-            <div className="flex gap-4">
-              <div className="w-10 h-10 shrink-0 bg-white/15 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Swipe Through Opportunities</h3>
-                <p className="text-blue-100 text-sm">
-                  Discover jobs the way social apps discover content you'll love. Swipe
-                  right on opportunities that excite you, skip the ones that don't, and
-                  let our AI continuously learn your preferences.
-                </p>
-              </div>
-            </div>
+        
 
             <div className="flex gap-4">
               <div className="w-10 h-10 shrink-0 bg-white/15 rounded-lg flex items-center justify-center">
@@ -87,7 +74,7 @@ export function Login() {
                 <h3 className="font-semibold text-white mb-1"> Apply in Seconds</h3>
                 <p className="text-blue-100 text-sm">
                   One swipe is all it takes. Your profile and resume are instantly
-                  submitted—no repetitive forms, no uploading the same resume over and
+                  submitted no repetitive forms, no uploading the same resume over and
                   over again.
                 </p>
               </div>
