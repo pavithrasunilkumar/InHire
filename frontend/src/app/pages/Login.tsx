@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { Briefcase, User, Lock, Sparkles, Target, FileCheck } from 'lucide-react';
+import { Briefcase, User, Lock, Sparkles, Brain, Zap } from 'lucide-react';
 import { login } from '../api';
 
 export function Login() {
@@ -30,7 +30,75 @@ export function Login() {
 
   return (
     <div className="min-h-screen flex items-stretch bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* LEFT SIDE — unchanged login form */}
+      {/* LEFT SIDE — explanation panel with logo */}
+      <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+        <div className="max-w-md">
+          <div className="inline-flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 bg-white/15 rounded-lg flex items-center justify-center">
+              <Briefcase className="w-7 h-7 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold text-white">InHire</h1>
+          </div>
+
+          <h2 className="text-3xl font-bold mb-4">
+            Stop Searching. Start Swiping.
+          </h2>
+          <p className="text-blue-100 text-lg mb-4">
+            Finding your next internship or dream job shouldn't feel like scrolling
+            through endless listings. InHire learns what you're good at, finds
+            opportunities you'll actually love, and lets you apply with a single swipe.
+          </p>
+          <p className="text-white font-semibold mb-10">
+            ✨ Swipe. Match. Get Hired.
+          </p>
+
+          <div className="space-y-6">
+            <div className="flex gap-4">
+              <div className="w-10 h-10 shrink-0 bg-white/15 rounded-lg flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-white mb-1">💫 Swipe Through Opportunities</h3>
+                <p className="text-blue-100 text-sm">
+                  Discover jobs the way social apps discover content you'll love. Swipe
+                  right on opportunities that excite you, skip the ones that don't, and
+                  let our AI continuously learn your preferences.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="w-10 h-10 shrink-0 bg-white/15 rounded-lg flex items-center justify-center">
+                <Brain className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-white mb-1">🧠 AI Match Intelligence</h3>
+                <p className="text-blue-100 text-sm">
+                  Don't waste time guessing if you're qualified. Every job comes with an
+                  AI-generated compatibility score, highlighting exactly how your skills,
+                  projects, and experience align with the role.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="w-10 h-10 shrink-0 bg-white/15 rounded-lg flex items-center justify-center">
+                <Zap className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-white mb-1">⚡ Apply in Seconds</h3>
+                <p className="text-blue-100 text-sm">
+                  One swipe is all it takes. Your profile and resume are instantly
+                  submitted—no repetitive forms, no uploading the same resume over and
+                  over again.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* RIGHT SIDE — unchanged login form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
@@ -73,57 +141,6 @@ export function Login() {
               <p className="text-gray-600">Don't have an account?{' '}
                 <Link to="/role-selection" className="text-blue-600 font-semibold hover:underline">Sign Up</Link>
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* RIGHT SIDE — explanation panel, hidden on small screens */}
-      <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-12 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-        <div className="max-w-md">
-          <h2 className="text-3xl font-bold mb-4">
-            Swipe your way to your next opportunity
-          </h2>
-          <p className="text-blue-100 text-lg mb-10">
-            InHire turns job hunting into something you'll actually want to do —
-            swipe through roles matched to your skills and apply in a tap.
-          </p>
-
-          <div className="space-y-6">
-            <div className="flex gap-4">
-              <div className="w-10 h-10 shrink-0 bg-white/15 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Swipe-style discovery</h3>
-                <p className="text-blue-100 text-sm">
-                  Browse jobs like never before — swipe right to apply, left to skip.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="w-10 h-10 shrink-0 bg-white/15 rounded-lg flex items-center justify-center">
-                <Target className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">ML-powered match score</h3>
-                <p className="text-blue-100 text-sm">
-                  See exactly how well your skills fit each role, powered by real matching algorithms.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="w-10 h-10 shrink-0 bg-white/15 rounded-lg flex items-center justify-center">
-                <FileCheck className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">One-tap applications</h3>
-                <p className="text-blue-100 text-sm">
-                  Your resume is sent automatically the moment you apply — no re-uploading, ever.
-                </p>
-              </div>
             </div>
           </div>
         </div>
