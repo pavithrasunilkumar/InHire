@@ -1,279 +1,561 @@
+````md
 <div align="center">
 
-#  InHire - Intelligent Swipe-Based Opportunity Discovery Platform
+# 🚀 InHire - Intelligent AI-Powered Swipe-Based Job Discovery Platform
 
-🌐 Live Deployment - [Visit InHire](https://in-hire.vercel.app/login)
+🌐 **Live Demo:** https://in-hire.vercel.app/login
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![Version](https://img.shields.io/badge/Version-v2.0-blue)
 ![React](https://img.shields.io/badge/Frontend-React.js-61DAFB?style=for-the-badge&logo=react)
-![JavaScript](https://img.shields.io/badge/Language-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/API-Express.js-000000?style=for-the-badge&logo=express)
-![Machine Learning](https://img.shields.io/badge/AI-Machine%20Learning-orange?style=for-the-badge)
-![NLP](https://img.shields.io/badge/AI-NLP-red?style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/ORM-Prisma-2D3748?style=for-the-badge&logo=prisma)
+![Python](https://img.shields.io/badge/AI-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![LangChain](https://img.shields.io/badge/Framework-LangChain-success?style=for-the-badge)
+![RAG](https://img.shields.io/badge/AI-RAG-purple?style=for-the-badge)
+![Semantic Embeddings](https://img.shields.io/badge/AI-Semantic%20Embeddings-orange?style=for-the-badge)
 ![Recommendation System](https://img.shields.io/badge/System-Recommendation%20Engine-blueviolet?style=for-the-badge)
 ![REST API](https://img.shields.io/badge/API-REST%20API-02569B?style=for-the-badge)
-![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Firebase](https://img.shields.io/badge/Auth-Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Vercel](https://img.shields.io/badge/Deployment-Vercel-black?style=for-the-badge&logo=vercel)
+![JWT](https://img.shields.io/badge/Auth-JWT-black?style=for-the-badge)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-black?style=for-the-badge&logo=vercel)
+![Render](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge)
 ![Responsive UI](https://img.shields.io/badge/UI-Responsive-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Non--Commercial-red)
 
+### Intelligent Swipe-Based Job Discovery • Semantic Resume Matching • Personalized AI Recommendations
 
-**Swipe-style job swiping · ML match scoring · Resume transfer to recruiters**
-
-[Features](#-features) · [Demo Flow](#-demo-flow) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [API Reference](#-api-reference)
+[Features](#-features) •
+[Architecture](#-architecture) •
+[Tech Stack](#-tech-stack) •
+[Getting Started](#-getting-started) •
+[API Reference](#-api-reference)
 
 </div>
 
 ---
 
+# 📖 Overview
 
-InHire is a full-stack AI-driven job and internship discovery platform designed to simplify how users find relevant opportunities. Inspired by swipe-based interaction systems, the platform enables users to explore jobs dynamically while leveraging machine learning for personalized recommendations.
+InHire is an AI-powered swipe-based job discovery and recommendation platform that transforms traditional job searching into an intelligent and personalized experience.
 
-The system integrates a React + Vite frontend, a Node.js + Express backend, and a Python FastAPI-based ML microservice. It uses TF-IDF and cosine similarity to analyze user profiles and job descriptions, ensuring accurate and meaningful matches.
+Unlike conventional job portals that rely primarily on keyword matching and manual filtering, InHire combines semantic resume understanding, personalized recommendation systems, and behavioral learning to continuously improve job recommendations.
 
-InHire is a full-stack AI-driven job and internship discovery platform designed to simplify how users find relevant opportunities. Inspired by swipe-based interaction systems, the platform enables users to explore jobs dynamically while leveraging machine learning for personalized recommendations.
+The platform learns from every user interaction. Each swipe acts as implicit feedback that helps the recommendation engine understand user preferences, resulting in increasingly relevant opportunities over time.
 
-The system integrates a React + Vite frontend, a Node.js + Express backend, and a Python FastAPI-based ML microservice. It uses TF-IDF and cosine similarity to analyze user profiles and job descriptions, ensuring accurate and meaningful matches.
-
-## ✨ Features
-
-### For Job Seekers
-- **Swipe UI** —  swipe right to apply, left to skip
-- **ML Match Score** — TF-IDF cosine similarity shows how well your skills match each job
-- **Resume Upload** — PDF stored in database, automatically sent to recruiters on apply
-- **Dashboard** — Track all jobs you've applied to
-- **Streak Counter** — Daily swipe streak to keep you motivated
-- **Editable Profile** — Update skills, education, work experience anytime
-
-### For Companies
-- **Job Posting** — Create jobs with title, description, location, salary, required skills
-- **Applicant Viewer** — See every applicant per job with full profile details
-- **Resume Download** — Download the actual PDF resume of each applicant
-- **Close Jobs** — Close a job once filled — removed from seeker swipe cards instantly
-- **Company Profile** — Editable company info page
-
-### Platform
-- **JWT Authentication** — Secure login with 7-day tokens
-- **Role-based Access** — Separate flows for job seekers and companies
-- **MongoDB Atlas** — Cloud database, all data persisted
-- **Hot Reload** — Vite dev server for instant frontend updates
+The application consists of a React frontend, Node.js backend, PostgreSQL database with Prisma ORM, and a Python FastAPI AI microservice that performs semantic resume understanding and recommendation generation.
 
 ---
 
-## 🎬 Demo Flow
+# 🚀 Features
 
-### Job Seeker
-Register → Fill Profile + Upload Resume → Login
-→ Swipe Cards (with ML match %) → Apply (resume auto-sent)
-→ Dashboard (view applied jobs) → Profile (edit anytime)
+## 👨‍💻 For Job Seekers
 
-### Company
-Register → Login → Dashboard
-→ Create Job → Job appears in seeker swipe cards
-→ View Applicants → Download Resume PDF
-→ Close Job (removes from swipe cards)
+- Tinder-like swipe interface
+- AI-powered semantic resume-job matching
+- Personalized recommendations based on swipe history
+- Resume upload & management
+- AI Match Score for every opportunity
+- Daily swipe streak
+- Saved applications dashboard
+- Editable profile
+- Resume auto-submission during application
 
 ---
 
-## 🏗️ Architecture
+## 🏢 For Recruiters
 
+- Company registration & authentication
+- Create and manage job postings
+- Applicant dashboard
+- Resume viewing & download
+- Close filled positions instantly
+- Company profile management
+- Job analytics
+
+---
+
+## 🤖 AI Features
+
+- Semantic Resume Understanding
+- Sentence Transformer Embeddings
+- Cosine Similarity Matching
+- Content-Based Recommendation System
+- Swipe Preference Learning
+- LangChain Orchestration
+- Retrieval-Augmented Generation (RAG)
+- Personalized Job Ranking
+
+---
+
+# 🎯 Problem Statement
+
+Traditional job portals face several limitations:
+
+- Information overload due to thousands of job listings
+- Static keyword-based search
+- Poor candidate-role matching
+- Limited personalization
+- No learning from user interactions
+
+InHire solves these challenges by combining semantic AI with behavioral recommendation learning, allowing recommendations to improve continuously based on user preferences and interactions.
+
+---
+
+# 🎬 User Flow
+
+## Job Seeker
+
+Register
+
+↓
+
+Complete Profile
+
+↓
+
+Upload Resume
+
+↓
+
+Resume Parsed
+
+↓
+
+Semantic Embedding Generated
+
+↓
+
+Relevant Jobs Retrieved
+
+↓
+
+AI Match Score Calculated
+
+↓
+
+Swipe Right / Left
+
+↓
+
+Apply
+
+↓
+
+Recommendation Engine Learns
+
+↓
+
+Future Recommendations Improve
+
+---
+
+## Recruiter
+
+Register
+
+↓
+
+Create Company
+
+↓
+
+Post Job
+
+↓
+
+Job Appears to Matching Candidates
+
+↓
+
+View Applicants
+
+↓
+
+Download Resume
+
+↓
+
+Close Position
+
+---
+
+# 🏗️ Architecture
+
+```text
+                    React + TypeScript
+                           │
+                    REST API (HTTPS)
+                           │
+                  Node.js + Express
+                           │
+                        Prisma ORM
+                           │
+                      PostgreSQL
+                           │
+         ┌─────────────────┴─────────────────┐
+         │                                   │
+ Authentication                      Python FastAPI
+                                     │
+                              Resume Processing
+                                     │
+                        Sentence Transformer
+                                     │
+                         Semantic Embeddings
+                                     │
+                         Cosine Similarity
+                                     │
+                       Initial Match Score
+                                     │
+                 Swipe Preference Learning
+                                     │
+               Content-Based Recommendation
+                                     │
+                       LangChain + RAG
+                                     │
+                  Personalized Job Ranking
+````
+
+---
+
+# 🤖 AI Recommendation Pipeline
+
+```text
+Resume Upload
+
+↓
+
+Resume Parsing
+
+↓
+
+Skill Extraction
+
+↓
+
+Sentence Transformer
+
+↓
+
+Semantic Embedding
+
+↓
+
+Job Embedding
+
+↓
+
+Cosine Similarity
+
+↓
+
+Initial Match Score
+
+↓
+
+Swipe History
+
+↓
+
+Content-Based Filtering
+
+↓
+
+LangChain
+
+↓
+
+RAG
+
+↓
+
+Final Personalized Recommendation
 ```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│   Frontend      │────▶│   Backend        │────▶│   ML Service    │
-│  React + Vite   │     │  Node + Express  │     │  Python FastAPI │
-│  TypeScript     │◀────│  MongoDB Atlas   │     │  TF-IDF Cosine  │
-│  Tailwind CSS   │     │  JWT Auth        │◀────│  Similarity     │
-└─────────────────┘     └──────────────────┘     └─────────────────┘
-   :5173                      :5000                     :8000
-```
-
-
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| Frontend | React 18 + TypeScript | UI framework |
-| Styling | Tailwind CSS 4 | Utility-first CSS |
-| Animation | Framer Motion | Swipe card animations |
-| Routing | React Router 7 | Client-side routing |
-| Backend | Node.js + Express | REST API server |
-| Database | MongoDB Atlas + Mongoose | Data persistence |
-| Auth | JWT + bcryptjs | Secure authentication |
-| ML Service | Python + FastAPI | Job match scoring |
-| Algorithm | TF-IDF + Cosine Similarity | Skill matching |
-| Build Tool | Vite 6 | Frontend bundler |
+| Layer          | Technology                               | Purpose                   |
+| -------------- | ---------------------------------------- | ------------------------- |
+| Frontend       | React 18 + TypeScript                    | User Interface            |
+| Styling        | Tailwind CSS                             | Styling                   |
+| Animation      | Framer Motion                            | Swipe Animations          |
+| Routing        | React Router                             | Client-side Routing       |
+| Backend        | Node.js + Express                        | REST API                  |
+| Database       | PostgreSQL                               | Relational Database       |
+| ORM            | Prisma                                   | Type-safe Database Access |
+| Authentication | JWT + bcrypt                             | Authentication            |
+| AI Service     | Python + FastAPI                         | AI Microservice           |
+| Embeddings     | Sentence Transformers (all-MiniLM-L6-v2) | Semantic Encoding         |
+| Similarity     | Cosine Similarity                        | Resume Matching           |
+| AI Framework   | LangChain                                | AI Orchestration          |
+| Retrieval      | Retrieval-Augmented Generation (RAG)     | Context Retrieval         |
+| Recommendation | Content-Based Filtering                  | Personalized Ranking      |
+| Deployment     | Vercel + Render                          | Cloud Deployment          |
 
 ---
 
-## Getting Started
+# ⚙️ Getting Started
 
-### Prerequisites
+## Prerequisites
 
-| Tool | Version | Check |
-|------|---------|-------|
-| Node.js | 18+ | `node -v` |
-| Python | 3.9+ | `python --version` |
-| npm | latest | `npm -v` |
+| Tool       | Version |
+| ---------- | ------- |
+| Node.js    | 18+     |
+| Python     | 3.10+   |
+| PostgreSQL | 15+     |
+| npm        | Latest  |
 
-### Installation
+---
 
-**Clone the repository**
+## Installation
+
+### Clone Repository
+
 ```bash
-git clone https://github.com/pavithra_sunilkumar/inhire.git
-cd inhire
+git clone https://github.com/pavithrasunilkumar/InHire.git
+
+cd InHire
 ```
 
-**Terminal 1 — ML Service**
+### Backend
+
+```bash
+cd backend
+
+npm install
+
+npx prisma generate
+
+npx prisma migrate dev
+
+npm run dev
+```
+
+---
+
+### AI Service
+
 ```bash
 cd ml-service
 
-# Mac/Linux
 python -m venv venv
+
 source venv/bin/activate
 
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
 pip install -r requirements.txt
+
 python main.py
-# ✅ Running on http://localhost:8000
 ```
 
-**Terminal 2 — Backend**
-```bash
-cd backend
-npm install
-cp .env.example .env
-npm run dev
-# ✅ MongoDB connected
-# ✅ Running on http://localhost:5000
-```
+---
 
-**Terminal 3 — Frontend**
+### Frontend
+
 ```bash
 cd frontend
+
 npm install
-cp .env.example .env
+
 npm run dev
-# ✅ Running on http://localhost:5173
 ```
-
-## 📡 API Reference
-
-### Auth
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/register` | Register jobseeker or company |
-| `POST` | `/login` | Login → returns JWT + user object |
-
-### Profile
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| `POST` | `/save-profile` | ✅ | Update profile + resume |
-| `POST` | `/get-profile` | ✅ | Fetch current user |
-
-### Jobs
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| `GET` | `/jobs` | ✅ | All active jobs with ML scores |
-| `POST` | `/create-job` | ✅ Company | Create job posting |
-| `GET` | `/company/jobs` | ✅ Company | Jobs by this company |
-| `PATCH` | `/company/jobs/:id/close` | ✅ Company | Close a job |
-
-### Applications
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| `POST` | `/apply` | ✅ Seeker | Apply with resume snapshot |
-| `GET` | `/applied-jobs` | ✅ Seeker | All applied jobs |
-| `GET` | `/company/applicants/:jobId` | ✅ Company | Applicants + resume data |
-
-### ML Service
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/recommend` | `{user_skills, job_skills}` → `{match_score}` |
-| `GET` | `/health` | Health check |
 
 ---
 
-## 📁 Project Structure
+# 📡 API Reference
 
-```
-InHire/
-├── frontend/                 # React + Vite app
-│   ├── src/
-│   │   └── app/
-│   │       ├── pages/        # Login, Signup, Home, Profile
-│   │       ├── components/   # JobCard, Layout, AppliedPopup
-│   │       └── api.ts        # API calls
-│   ├── .env.example
-│   └── package.json
-│
-├── backend/                  # Node.js + Express API
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Job.js
-│   │   └── Application.js
-│   ├── server.js
-│   ├── .env.example
-│   └── package.json
-│
-├── ml-service/               # Python FastAPI
-│   ├── main.py
-│   └── requirements.txt
-│
-├── .gitignore
-└── README.md
-```
+## Authentication
 
+POST `/register`
+
+POST `/login`
 
 ---
 
-## 🤖 ML Match Score
+## Profile
 
-The ML service computes how well a job seeker's skills match a job posting:
+GET `/profile`
 
-1. Both skill lists are **tokenized** into individual terms
-2. **TF-IDF vectors** are built for each
-3. **Cosine similarity** is calculated (0–1 range)
-4. **Exact skill match bonus** adds up to +20 points
-5. Score is scaled to **0–100%**
-```python
-# Example
-user_skills = ["React", "TypeScript", "Node.js"]
-job_skills  = ["React", "JavaScript", "Node.js", "AWS"]
+PUT `/profile`
 
-# → match_score: 72
+POST `/upload-resume`
+
+---
+
+## Jobs
+
+GET `/jobs`
+
+POST `/jobs`
+
+PATCH `/jobs/:id/close`
+
+GET `/company/jobs`
+
+---
+
+## Applications
+
+POST `/apply`
+
+GET `/applications`
+
+GET `/company/applicants/:jobId`
+
+---
+
+## Recommendations
+
+GET `/recommendations`
+
+---
+
+## AI Service
+
+POST `/generate-embedding`
+
+POST `/recommend`
+
+GET `/health`
+
+---
+
+# 🗄️ Database Schema
+
+## User
+
+* id
+* name
+* email
+* password
+* role
+* skills
+* education
+* experience
+* resumeUrl
+
+---
+
+## Company
+
+* id
+* companyName
+* email
+* website
+* description
+
+---
+
+## Job
+
+* id
+* companyId
+* title
+* description
+* salary
+* location
+* requiredSkills
+* status
+
+---
+
+## Application
+
+* id
+* userId
+* jobId
+* matchScore
+* appliedAt
+
+---
+
+## Swipe
+
+* id
+* userId
+* jobId
+* direction
+* timestamp
+
+---
+
+# 📂 Project Structure
+
+```text
+InHire
+
+frontend/
+    src/
+    components/
+    pages/
+    services/
+
+backend/
+    controllers/
+    routes/
+    middleware/
+    prisma/
+        schema.prisma
+    services/
+
+ml-service/
+    main.py
+    recommendation.py
+    embeddings.py
+    parser.py
+
+README.md
 ```
 
-If the ML service is unreachable, the backend falls back to a simple overlap ratio.
+---
+
+# 🔒 Security
+
+* JWT Authentication
+* bcrypt Password Hashing
+* Role-Based Authorization
+* Protected REST APIs
+* Prisma ORM
+* Input Validation
+* Secure Resume Storage
 
 ---
 
-## 🔒 Security
+# 🚀 Deployment
 
-- Passwords hashed with **bcrypt** (12 salt rounds)
-- **JWT tokens** expire after 7 days
-- All protected routes require `Authorization: Bearer <token>`
-- Resume files stored as **base64 in MongoDB** (no file system needed)
-- CORS restricted to known frontend origins
+| Service    | Platform   |
+| ---------- | ---------- |
+| Frontend   | Vercel     |
+| Backend    | Render     |
+| Database   | PostgreSQL |
+| AI Service | Render     |
 
 ---
+
+# 🔮 Future Enhancements
+
+* Hybrid Recommendation System
+* pgvector Integration
+* Real-time Recommendation Updates
+* Explainable AI Recommendations
+* AI Resume Optimization
+* Skill Gap Analysis
+* Interview Preparation Assistant
+* Recruiter Analytics Dashboard
+* Salary Prediction
+
+---
+
 # 👩‍💻 Author
 
 ## Pavithra Sunilkumar
 
-- LinkedIn: https://linkedin.com/in/pavithra-sunilkumar68
-- GitHub: https://github.com/pavithrasunilkumar
-- Portfolio: https://vermillion-panda-a08876.netlify.app/
-
----
+* LinkedIn: https://linkedin.com/in/pavithra-sunilkumar68
+* GitHub: https://github.com/pavithrasunilkumar
+* Portfolio: https://vermillion-panda-a08876.netlify.app/
 
 ---
 
@@ -282,11 +564,10 @@ If the ML service is unreachable, the backend falls back to a simple overlap rat
 If you found this project useful, consider giving it a ⭐ on GitHub.
 
 ---
-## 📝 License
 
-copyright attached
+# 📜 License
 
----
+This project is intended for educational and non-commercial purposes.
 
-
-
+```
+```
