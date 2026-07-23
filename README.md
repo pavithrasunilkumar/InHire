@@ -1,4 +1,4 @@
-````md
+
 <div align="center">
 
 # 🚀 InHire - Intelligent AI-Powered Swipe-Based Job Discovery Platform
