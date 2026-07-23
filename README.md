@@ -1,9 +1,8 @@
-
 <div align="center">
 
-# 🚀 InHire - Intelligent AI-Powered Swipe-Based Job Discovery Platform
+# InHire - Intelligent AI-Powered Swipe-Based Job Discovery Platform
 
-🌐 **Live Demo:** https://in-hire.vercel.app/login
+🌐 **Live Deployment** - [Visit InHire](https://in-hire.vercel.app/login)
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![Version](https://img.shields.io/badge/Version-v2.0-blue)
@@ -25,209 +24,207 @@
 ![Responsive UI](https://img.shields.io/badge/UI-Responsive-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Non--Commercial-red)
 
-### Intelligent Swipe-Based Job Discovery • Semantic Resume Matching • Personalized AI Recommendations
+**Swipe-Based Job Discovery • Semantic Resume Matching • AI Recommendations**
 
-[Features](#-features) •
-[Architecture](#-architecture) •
-[Tech Stack](#-tech-stack) •
-[Getting Started](#-getting-started) •
-[API Reference](#-api-reference)
+[Features](#-features) · [Demo Flow](#-demo-flow) · [Architecture](#-architecture) · [Tech Stack](#-tech-stack) · [Getting Started](#getting-started) · [API Reference](#-api-reference)
 
 </div>
 
 ---
 
-# 📖 Overview
 
-InHire is an AI-powered swipe-based job discovery and recommendation platform that transforms traditional job searching into an intelligent and personalized experience.
+## Overview
 
-Unlike conventional job portals that rely primarily on keyword matching and manual filtering, InHire combines semantic resume understanding, personalized recommendation systems, and behavioral learning to continuously improve job recommendations.
+InHire is a full-stack AI-powered job discovery platform that delivers
+personalized opportunities through semantic resume understanding,
+content-based recommendations, and swipe-driven preference learning.
 
-The platform learns from every user interaction. Each swipe acts as implicit feedback that helps the recommendation engine understand user preferences, resulting in increasingly relevant opportunities over time.
+The application consists of a React frontend, Node.js backend,
+PostgreSQL database using Prisma ORM, and a Python FastAPI AI
+microservice. Semantic embeddings, cosine similarity, LangChain, and
+Retrieval-Augmented Generation (RAG) work together to rank and recommend
+the most relevant jobs.
 
-The application consists of a React frontend, Node.js backend, PostgreSQL database with Prisma ORM, and a Python FastAPI AI microservice that performs semantic resume understanding and recommendation generation.
+------------------------------------------------------------------------
 
----
+## ✨ Features
 
-# 🚀 Features
+### For Job Seekers
 
-## 👨‍💻 For Job Seekers
+-   Swipe-based job discovery
+-   AI-powered resume-job matching
+-   Semantic similarity scoring
+-   Personalized recommendations
+-   Resume upload
+-   Application dashboard
+-   Daily streak
+-   Editable profile
 
-- Tinder-like swipe interface
-- AI-powered semantic resume-job matching
-- Personalized recommendations based on swipe history
-- Resume upload & management
-- AI Match Score for every opportunity
-- Daily swipe streak
-- Saved applications dashboard
-- Editable profile
-- Resume auto-submission during application
+### For Recruiters
 
----
+-   Company registration
+-   Create and manage jobs
+-   Applicant dashboard
+-   Resume download
+-   Close filled jobs
+-   Company profile management
 
-## 🏢 For Recruiters
+### Platform
 
-- Company registration & authentication
-- Create and manage job postings
-- Applicant dashboard
-- Resume viewing & download
-- Close filled positions instantly
-- Company profile management
-- Job analytics
+-   JWT Authentication
+-   Role-based access
+-   PostgreSQL + Prisma
+-   REST APIs
+-   AI recommendation engine
 
----
+------------------------------------------------------------------------
 
-## 🤖 AI Features
 
-- Semantic Resume Understanding
-- Sentence Transformer Embeddings
-- Cosine Similarity Matching
-- Content-Based Recommendation System
-- Swipe Preference Learning
-- LangChain Orchestration
-- Retrieval-Augmented Generation (RAG)
-- Personalized Job Ranking
-
----
-
-# 🎯 Problem Statement
-
-Traditional job portals face several limitations:
-
-- Information overload due to thousands of job listings
-- Static keyword-based search
-- Poor candidate-role matching
-- Limited personalization
-- No learning from user interactions
-
-InHire solves these challenges by combining semantic AI with behavioral recommendation learning, allowing recommendations to improve continuously based on user preferences and interactions.
-
----
-
-# 🎬 User Flow
-
-## Job Seeker
-
-Register
-
-↓
-
-Complete Profile
-
-↓
-
-Upload Resume
-
-↓
-
-Resume Parsed
-
-↓
-
-Semantic Embedding Generated
-
-↓
-
-Relevant Jobs Retrieved
-
-↓
-
-AI Match Score Calculated
-
-↓
-
-Swipe Right / Left
-
-↓
-
-Apply
-
-↓
-
-Recommendation Engine Learns
-
-↓
-
-Future Recommendations Improve
-
----
-
-## Recruiter
-
-Register
-
-↓
-
-Create Company
-
-↓
-
-Post Job
-
-↓
-
-Job Appears to Matching Candidates
-
-↓
-
-View Applicants
-
-↓
-
-Download Resume
-
-↓
-
-Close Position
-
----
-
-# 🏗️ Architecture
+## 🏗️ Architecture
 
 ```text
-                    React + TypeScript
-                           │
-                    REST API (HTTPS)
-                           │
-                  Node.js + Express
-                           │
-                        Prisma ORM
-                           │
-                      PostgreSQL
-                           │
-         ┌─────────────────┴─────────────────┐
-         │                                   │
- Authentication                      Python FastAPI
-                                     │
-                              Resume Processing
-                                     │
-                        Sentence Transformer
-                                     │
-                         Semantic Embeddings
-                                     │
-                         Cosine Similarity
-                                     │
-                       Initial Match Score
-                                     │
-                 Swipe Preference Learning
-                                     │
-               Content-Based Recommendation
-                                     │
-                       LangChain + RAG
-                                     │
-                  Personalized Job Ranking
-````
+                              React + TypeScript
+                                      │
+                             REST API (HTTPS)
+                                      │
+                              Node.js + Express
+                                      │
+                                   Prisma ORM
+                                      │
+                                 PostgreSQL
+                                      │
+               ┌──────────────────────┴──────────────────────┐
+               │                                             │
+      Authentication                               Python FastAPI
+                                                    AI Microservice
+                                                           │
+                                                    Resume Parser
+                                                           │
+                                             Sentence Transformer
+                                                           │
+                                              Semantic Embeddings
+                                                           │
+                                                 Cosine Similarity
+                                                           │
+                                                Initial Match Score
+                                                           │
+                                           Swipe Preference Learning
+                                                           │
+                                          Content-Based Recommendation
+                                                           │
+                                                 LangChain + RAG
+                                                           │
+                                              Personalized Job Feed
+```
 
 ---
+## 🛠️ Tech Stack
 
-# 🤖 AI Recommendation Pipeline
+  Layer            Technology              Purpose
+  ---------------- ----------------------- ---------------------------
+  Frontend         React + TypeScript      UI
+  Styling          Tailwind CSS            Styling
+  Animation        Framer Motion           Swipe animations
+  Backend          Node.js + Express       REST API
+  Database         PostgreSQL              Data storage
+  ORM              Prisma                  Type-safe database access
+  Authentication   JWT + bcrypt            Authentication
+  AI               Python + FastAPI        Recommendation service
+  Embeddings       Sentence Transformers   Semantic matching
+  AI Framework     LangChain               AI orchestration
+  Retrieval        RAG                     Context retrieval
 
-```text
-Resume Upload
+------------------------------------------------------------------------
 
-↓
+## Getting Started
 
-Resume Parsing
+### Prerequisites
+
+-   Node.js 18+
+-   Python 3.10+
+-   PostgreSQL
+-   npm
+
+### Installation
+
+``` bash
+git clone https://github.com/pavithrasunilkumar/InHire.git
+cd InHire
+```
+
+Backend
+
+``` bash
+cd backend
+npm install
+npx prisma generate
+npx prisma migrate dev
+npm run dev
+```
+
+AI Service
+
+``` bash
+cd ml-service
+pip install -r requirements.txt
+python main.py
+```
+
+Frontend
+
+``` bash
+cd frontend
+npm install
+npm run dev
+```
+
+------------------------------------------------------------------------
+
+## 📡 API Reference
+
+### Authentication
+
+-   POST /register
+-   POST /login
+
+### Profile
+
+-   GET /profile
+-   PUT /profile
+
+### Jobs
+
+-   GET /jobs
+-   POST /jobs
+-   PATCH /jobs/:id/close
+
+### Applications
+
+-   POST /apply
+-   GET /applications
+
+### Recommendations
+
+-   GET /recommendations
+
+------------------------------------------------------------------------
+
+## 📁 Project Structure
+
+``` text
+frontend/
+backend/
+  prisma/
+    schema.prisma
+ml-service/
+README.md
+```
+
+------------------------------------------------------------------------
+
+## 🤖 Recommendation Pipeline
+
+Resume
 
 ↓
 
@@ -235,15 +232,11 @@ Skill Extraction
 
 ↓
 
-Sentence Transformer
+Semantic Embeddings
 
 ↓
 
-Semantic Embedding
-
-↓
-
-Job Embedding
+Job Embeddings
 
 ↓
 
@@ -259,7 +252,7 @@ Swipe History
 
 ↓
 
-Content-Based Filtering
+Content-Based Recommendation
 
 ↓
 
@@ -271,303 +264,38 @@ RAG
 
 ↓
 
-Final Personalized Recommendation
-```
+Final Recommendation
 
----
+------------------------------------------------------------------------
 
-# 🛠️ Tech Stack
+## 🔒 Security
 
-| Layer          | Technology                               | Purpose                   |
-| -------------- | ---------------------------------------- | ------------------------- |
-| Frontend       | React 18 + TypeScript                    | User Interface            |
-| Styling        | Tailwind CSS                             | Styling                   |
-| Animation      | Framer Motion                            | Swipe Animations          |
-| Routing        | React Router                             | Client-side Routing       |
-| Backend        | Node.js + Express                        | REST API                  |
-| Database       | PostgreSQL                               | Relational Database       |
-| ORM            | Prisma                                   | Type-safe Database Access |
-| Authentication | JWT + bcrypt                             | Authentication            |
-| AI Service     | Python + FastAPI                         | AI Microservice           |
-| Embeddings     | Sentence Transformers (all-MiniLM-L6-v2) | Semantic Encoding         |
-| Similarity     | Cosine Similarity                        | Resume Matching           |
-| AI Framework   | LangChain                                | AI Orchestration          |
-| Retrieval      | Retrieval-Augmented Generation (RAG)     | Context Retrieval         |
-| Recommendation | Content-Based Filtering                  | Personalized Ranking      |
-| Deployment     | Vercel + Render                          | Cloud Deployment          |
+-   JWT Authentication
+-   bcrypt Password Hashing
+-   Role-Based Access
+-   Input Validation
+-   Protected REST APIs
 
----
+------------------------------------------------------------------------
 
-# ⚙️ Getting Started
+## 👩‍💻 Author
 
-## Prerequisites
+**Pavithra Sunilkumar**
 
-| Tool       | Version |
-| ---------- | ------- |
-| Node.js    | 18+     |
-| Python     | 3.10+   |
-| PostgreSQL | 15+     |
-| npm        | Latest  |
+GitHub: https://github.com/pavithrasunilkumar
 
----
+LinkedIn: https://linkedin.com/in/pavithra-sunilkumar68
 
-## Installation
+Portfolio: https://vermillion-panda-a08876.netlify.app/
 
-### Clone Repository
+------------------------------------------------------------------------
 
-```bash
-git clone https://github.com/pavithrasunilkumar/InHire.git
+## ⭐ Support
 
-cd InHire
-```
+If you found this project useful, consider giving it a ⭐.
 
-### Backend
+------------------------------------------------------------------------
 
-```bash
-cd backend
+## 📝 License
 
-npm install
-
-npx prisma generate
-
-npx prisma migrate dev
-
-npm run dev
-```
-
----
-
-### AI Service
-
-```bash
-cd ml-service
-
-python -m venv venv
-
-source venv/bin/activate
-
-pip install -r requirements.txt
-
-python main.py
-```
-
----
-
-### Frontend
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
----
-
-# 📡 API Reference
-
-## Authentication
-
-POST `/register`
-
-POST `/login`
-
----
-
-## Profile
-
-GET `/profile`
-
-PUT `/profile`
-
-POST `/upload-resume`
-
----
-
-## Jobs
-
-GET `/jobs`
-
-POST `/jobs`
-
-PATCH `/jobs/:id/close`
-
-GET `/company/jobs`
-
----
-
-## Applications
-
-POST `/apply`
-
-GET `/applications`
-
-GET `/company/applicants/:jobId`
-
----
-
-## Recommendations
-
-GET `/recommendations`
-
----
-
-## AI Service
-
-POST `/generate-embedding`
-
-POST `/recommend`
-
-GET `/health`
-
----
-
-# 🗄️ Database Schema
-
-## User
-
-* id
-* name
-* email
-* password
-* role
-* skills
-* education
-* experience
-* resumeUrl
-
----
-
-## Company
-
-* id
-* companyName
-* email
-* website
-* description
-
----
-
-## Job
-
-* id
-* companyId
-* title
-* description
-* salary
-* location
-* requiredSkills
-* status
-
----
-
-## Application
-
-* id
-* userId
-* jobId
-* matchScore
-* appliedAt
-
----
-
-## Swipe
-
-* id
-* userId
-* jobId
-* direction
-* timestamp
-
----
-
-# 📂 Project Structure
-
-```text
-InHire
-
-frontend/
-    src/
-    components/
-    pages/
-    services/
-
-backend/
-    controllers/
-    routes/
-    middleware/
-    prisma/
-        schema.prisma
-    services/
-
-ml-service/
-    main.py
-    recommendation.py
-    embeddings.py
-    parser.py
-
-README.md
-```
-
----
-
-# 🔒 Security
-
-* JWT Authentication
-* bcrypt Password Hashing
-* Role-Based Authorization
-* Protected REST APIs
-* Prisma ORM
-* Input Validation
-* Secure Resume Storage
-
----
-
-# 🚀 Deployment
-
-| Service    | Platform   |
-| ---------- | ---------- |
-| Frontend   | Vercel     |
-| Backend    | Render     |
-| Database   | PostgreSQL |
-| AI Service | Render     |
-
----
-
-# 🔮 Future Enhancements
-
-* Hybrid Recommendation System
-* pgvector Integration
-* Real-time Recommendation Updates
-* Explainable AI Recommendations
-* AI Resume Optimization
-* Skill Gap Analysis
-* Interview Preparation Assistant
-* Recruiter Analytics Dashboard
-* Salary Prediction
-
----
-
-# 👩‍💻 Author
-
-## Pavithra Sunilkumar
-
-* LinkedIn: https://linkedin.com/in/pavithra-sunilkumar68
-* GitHub: https://github.com/pavithrasunilkumar
-* Portfolio: https://vermillion-panda-a08876.netlify.app/
-
----
-
-# ⭐ Support
-
-If you found this project useful, consider giving it a ⭐ on GitHub.
-
----
-
-# 📜 License
-
-This project is intended for educational and non-commercial purposes.
-
-```
-```
+For educational and non-commercial use.
