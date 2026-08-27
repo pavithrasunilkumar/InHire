@@ -4,10 +4,6 @@
 
 🌐 **Live Demo** → [in-hire.vercel.app](https://in-hire.vercel.app/login)
 
-![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-v2.0-4F7EF5?style=for-the-badge)
-![License](https://img.shields.io/badge/License-Non--Commercial-red?style=for-the-badge)
-
 <!-- Stack -->
 ![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
